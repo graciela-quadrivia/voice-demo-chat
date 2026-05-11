@@ -104,6 +104,28 @@
   margin: 0;
 }
 
+/* ── Dynamic per-card hint policy ──────────────────────────────────────
+ * Don't render the "X details to share, then call" hint on EVERY card.
+ * Repeating identical hints across cards is visual noise. Apply this rule
+ * in the React port:
+ *
+ *   const hints = agents.map(detailsHintFor);  // existing helper
+ *   const uniform = new Set(hints).size === 1;
+ *
+ *   if (uniform && hints[0] !== 'Ready to call') {
+ *     // Surface the hint ONCE in the AI greeting, e.g.
+ *     //   "Pick a scenario below — each one just needs your first name."
+ *     // Render cards without .chat-action-card__desc.
+ *   } else {
+ *     // Hints differ → keep .chat-action-card__desc on each card
+ *     // (the difference IS the information).
+ *   }
+ *
+ * The "first name" copy is derived from the participant_variables — pluck
+ * the human label of the mandatory field and weave it into the greeting.
+ *
+ * 02g-option-a.html and 02h-option-b.html demonstrate the uniform case. */
+
 /* ── Option A — refined typography for the current backend ─────────────
  * Use this modifier when agent names are long (e.g. the current production
  * "Acme Hospital Hypertension Check-In"). Smaller font + tighter wrap +
