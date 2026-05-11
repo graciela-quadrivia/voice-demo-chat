@@ -104,6 +104,55 @@
   margin: 0;
 }
 
+/* ── Option A — refined typography for the current backend ─────────────
+ * Use this modifier when agent names are long (e.g. the current production
+ * "Acme Hospital Hypertension Check-In"). Smaller font + tighter wrap +
+ * text-wrap: balance makes 2-3 line names sit more naturally in cards. */
+.chat-action-card--refined .chat-action-card__title {
+  font-size: var(--text-body);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+/* ── Option B — 2-col tiles with description ──────────────────────────
+ * Use when the backend exposes a `description` field. Layout stays at
+ * 2 cols regardless of count (3-col is too cramped once descriptions land).
+ * Card body is left-aligned for natural multi-line reading. */
+.chat-action-grid--with-description { grid-template-columns: 1fr; }
+@container thread (min-width: 580px) {
+  .chat-action-grid--with-description {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@container thread (min-width: 700px) {
+  /* Override the count-driven 3-col rule above — descriptions need width */
+  .chat-action-grid--with-description:has(> .chat-action-card:nth-child(5)) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.chat-action-card--with-description {
+  text-align: left;
+  align-items: flex-start;
+  gap: 10px;
+}
+.chat-action-card--with-description .chat-action-card__icon {
+  margin-top: 0;
+  align-self: flex-start;
+}
+.chat-action-card--with-description .chat-action-card__title {
+  font-size: var(--text-body-lg);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+.chat-action-card__description {
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--color-fg-muted);
+  margin: 0;
+}
+
 /* ── Suggestion chips — retry / alternate-action prompts ────────────────── */
 .chat-suggestions {
   display: flex;

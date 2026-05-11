@@ -36,6 +36,8 @@
     { f: '02d-welcome-2-agents.html',        sec: 'Discovery',     step: '02d',  name: 'Welcome — 2 agents' },
     { f: '02e-welcome-3-agents.html',        sec: 'Discovery',     step: '02e',  name: 'Welcome — 3 agents' },
     { f: '02f-welcome-6-agents.html',        sec: 'Discovery',     step: '02f',  name: 'Welcome — 6 agents (production)' },
+    { f: '02g-option-a.html',                sec: 'Discovery',     step: '02g',  name: 'Option A — refined tiles (current backend)' },
+    { f: '02h-option-b.html',                sec: 'Discovery',     step: '02h',  name: 'Option B — tiles with description (proposed)' },
     { f: '03-empty.html',                    sec: 'Discovery',     step: '03',   name: 'No agents available' },
     { f: '04-error.html',                    sec: 'Discovery',     step: '04',   name: 'Agent fetch error' },
 
