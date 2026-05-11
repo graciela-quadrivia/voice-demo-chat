@@ -1,0 +1,193 @@
+/* =============================================================================
+ * CHAT INPUT — bottom input bar + agent picker popover
+ *
+ * Future React mapping:
+ *   <ChatInputBar>
+ *     <ChatInput>
+ *       <textarea placeholder="…" />
+ *       <ChatInputRow>
+ *         <ChatInputChip aria-haspopup="listbox" aria-expanded={open}>
+ *           Pick an agent
+ *         </ChatInputChip>
+ *         <ChatInputIcons>
+ *           <IconButton aria-label="Voice input" />
+ *           <IconButton aria-label="Send" />
+ *         </ChatInputIcons>
+ *       </ChatInputRow>
+ *       {open && <PickerPopover agents={…} />}
+ *     </ChatInput>
+ *   </ChatInputBar>
+ * ========================================================================== */
+
+/* ── Bottom input bar — sticky to viewport bottom during conversation ─────
+ * Sticky pinning matters most on mobile: when the iOS virtual keyboard opens,
+ * a normal-flow input gets pushed off-screen and users lose where to type.
+ * `position: sticky; bottom: 0` keeps the input pinned to the viewport bottom
+ * while the user scrolls.
+ *
+ * The gradient backdrop (transparent → page-band color) gives messages a
+ * clean dissolve as they scroll behind the pill. When threads are short
+ * enough to fit without scrolling, the gradient is invisible because both
+ * stops match the chat-page band color. Theme-aware via --mkt-grey-50. */
+.chat-input-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  padding-block: 32px 8px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    var(--mkt-grey-50) 32px
+  );
+}
+.chat-input {
+  position: relative;             /* anchors .chat-picker-popover */
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-2xl);
+  padding: clamp(14px, 1.8vw, 18px) clamp(18px, 2vw, 22px);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: 0 4px 16px var(--color-shadow-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chat-input__textarea {
+  font-family: inherit;
+  font-size: var(--text-body-lg);
+  line-height: 1.4;
+  color: var(--color-fg-default);
+  border: 0;
+  outline: none;
+  resize: none;
+  background: transparent;
+  width: 100%;
+  min-height: 24px;
+}
+.chat-input__textarea::placeholder { color: var(--color-fg-placeholder); }
+.chat-input__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.chat-input__chip {
+  font-family: inherit;
+  font-size: var(--text-small);
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-bg-surface);
+  color: var(--color-fg-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+/* Active state for the chip while its popover is open. */
+.chat-input__chip[aria-expanded="true"] {
+  background: var(--color-brand-teal-tint);
+  border-color: var(--color-brand-teal);
+  color: var(--color-fg-default);
+}
+.chat-input__icons {
+  display: flex;
+  gap: 2px;
+}
+
+/* =============================================================================
+ * Agent picker popover — opens from the .chat-input__chip "Pick an agent" /
+ * "Change agent" / "Pick another agent" control. Compact dropdown anchored
+ * to .chat-input. Shows the same 4 agents as the welcome state's inline
+ * grid, but sized for transient use (changing your mind without scrolling
+ * back to the welcome message).
+ *
+ * In production this toggles via aria-expanded on the chip; the static
+ * prototype renders it open. Markup contract:
+ *   <div class="chat-input">
+ *     <textarea …></textarea>
+ *     <div class="chat-input-row">
+ *       <button class="chat-input-chip" aria-haspopup="listbox"
+ *               aria-expanded="true">Pick an agent</button>
+ *       …icons…
+ *     </div>
+ *     <div class="chat-picker-popover" role="listbox">…</div>
+ *   </div>
+ * ========================================================================== */
+.chat-picker-popover {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 0;
+  right: 0;
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-base);
+  box-shadow: 0 12px 32px var(--color-shadow-elevated);
+  padding: 12px;
+  z-index: var(--z-popover);
+}
+.chat-picker-popover__title {
+  font-size: var(--text-micro);
+  font-weight: 600;
+  color: var(--color-fg-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 8px;
+  padding: 4px 8px 0;
+}
+.chat-picker-popover__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.chat-picker-popover__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background var(--duration-fast) ease;
+}
+.chat-picker-popover__item:hover,
+.chat-picker-popover__item:focus-visible {
+  background: var(--color-brand-teal-tint);
+  outline: none;
+}
+.chat-picker-popover__item-icon {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  display: grid;
+  place-items: center;
+  color: var(--color-fg-default);
+  background: var(--mkt-grey-50);
+  border-radius: var(--radius-sm);
+}
+.chat-picker-popover__item-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.chat-picker-popover__item-title {
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: var(--color-fg-default);
+  line-height: 1.3;
+}
+.chat-picker-popover__item-desc {
+  font-size: var(--text-meta);
+  color: var(--color-fg-muted);
+  line-height: 1.3;
+}

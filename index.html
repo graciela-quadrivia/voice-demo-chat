@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chat-mode prototype · index</title>
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+  <aside class="proto-stepper" id="proto-stepper">
+    <div class="proto-stepper-fallback">
+      <span class="proto-stepper-step">index</span>
+    </div>
+  </aside>
+
+    <header class="q-nav">
+    <div class="q-nav-inner">
+
+      <a class="q-nav-logo" href="/" aria-label="Quadrivia home">
+        <img class="q-nav-logo-img" alt="" src="quadrivia-logo.png">
+        <span class="q-sr-only">Quadrivia</span>
+      </a>
+
+      <nav class="q-nav-links" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/why-q">What is Q</a>
+        <a href="/whos-q-for">Who's Q for</a>
+        <a href="/research">Research</a>
+        <a href="/about-q">About</a>
+      </nav>
+
+      <a class="nav-cta" href="/schedule-demo">
+        Schedule a demo
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+
+      <details class="q-nav-mobile">
+        <summary class="q-nav-mobile-trigger" aria-label="Toggle menu">
+          <svg class="q-nav-mobile-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="q-nav-mobile-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="q-nav-mobile-panel">
+          <ul class="q-nav-mobile-list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/why-q">What is Q</a></li>
+            <li><a href="/whos-q-for">Who's Q for</a></li>
+            <li><a href="/research">Research</a></li>
+            <li><a href="/about-q">About</a></li>
+          </ul>
+          <a class="q-nav-mobile-cta" href="/schedule-demo">
+            Schedule a demo
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </details>
+
+    </div>
+  </header>
+
+  <main class="chat-page">
+
+    <div class="chat-main">
+      <div class="chat-thread" role="log" aria-live="polite" aria-relevant="additions">
+        <div class="chat-message--ai">
+          <div class="chat-avatar" aria-hidden="true"></div>
+          <div class="chat-message__body">
+            <p><strong>Voice demo flow — chat re-imagining.</strong></p>
+            <p>The same 13 states from <code>/public/voice-demo</code>, expressed as a Studio/Qu Manager-style conversation. Inter typography; brand colors from the synthesised design system. Pick a state to open it.</p>
+          </div>
+        </div>
+
+        <section class="proto-index-section">
+          <p class="proto-index-section-title">1 · Discovery</p>
+          <div class="proto-index-grid">
+            <a href="01-loading.html" class="proto-index-link">
+              <span class="proto-index-step">Step 01</span>
+              <span class="proto-index-title">Loading</span>
+              <span class="proto-index-desc">Animated typing dots while Q prepares the agent list.</span>
+            </a>
+            <a href="02-welcome.html" class="proto-index-link">
+              <span class="proto-index-step">Step 02</span>
+              <span class="proto-index-title">Welcome — agents as suggestions</span>
+              <span class="proto-index-desc">Greeting + 4 agent action cards in an inline panel.</span>
+            </a>
+            <a href="02b-picker-popover.html" class="proto-index-link">
+              <span class="proto-index-step">Step 02b</span>
+              <span class="proto-index-title">Picker popover — chip is open</span>
+              <span class="proto-index-desc">Same 4 agents as a compact dropdown, anchored to the "Pick an agent" chip in the input bar.</span>
+            </a>
+            <a href="03-empty.html" class="proto-index-link">
+              <span class="proto-index-step">Step 03</span>
+              <span class="proto-index-title">No agents available</span>
+              <span class="proto-index-desc">Empathic message; no fake controls.</span>
+            </a>
+            <a href="04-error.html" class="proto-index-link">
+              <span class="proto-index-step">Step 04</span>
+              <span class="proto-index-title">Picker fetch error</span>
+              <span class="proto-index-desc">Conversational error + retry suggestion chip.</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="proto-index-section">
+          <p class="proto-index-section-title">2 · Variables</p>
+          <div class="proto-index-grid">
+            <a href="05-agent-picked.html" class="proto-index-link">
+              <span class="proto-index-step">Step 05</span>
+              <span class="proto-index-title">Appointment Reminder — empty form</span>
+              <span class="proto-index-desc">5 fields: first / last / DOB / appointment date / clinic. Start button disabled until ready.</span>
+            </a>
+            <a href="05-filled.html" class="proto-index-link">
+              <span class="proto-index-step">Step 05-filled</span>
+              <span class="proto-index-title">Appointment Reminder — filled</span>
+              <span class="proto-index-desc">All 5 fields populated. Start enabled. "Form ready" chip earned its place.</span>
+            </a>
+            <a href="05b-prescription.html" class="proto-index-link">
+              <span class="proto-index-step">Step 05b</span>
+              <span class="proto-index-title">Prescription Refill — empty form</span>
+              <span class="proto-index-desc">4 fields: first / last / DOB / medication.</span>
+            </a>
+            <a href="05b-filled.html" class="proto-index-link">
+              <span class="proto-index-step">Step 05b-filled</span>
+              <span class="proto-index-title">Prescription Refill — filled</span>
+              <span class="proto-index-desc">All 4 fields populated (Metformin 500mg). Start enabled.</span>
+            </a>
+            <a href="05c-lab-results.html" class="proto-index-link">
+              <span class="proto-index-step">Step 05c</span>
+              <span class="proto-index-title">Lab Results Follow-up — empty form</span>
+              <span class="proto-index-desc">3 fields: first / last / DOB. Framing: "no medical detail until the call starts."</span>
+            </a>
+            <a href="05c-filled.html" class="proto-index-link">
+              <span class="proto-index-step">Step 05c-filled</span>
+              <span class="proto-index-title">Lab Results Follow-up — filled</span>
+              <span class="proto-index-desc">Identity verified. Start enabled.</span>
+            </a>
+            <a href="05d-wellness.html" class="proto-index-link">
+              <span class="proto-index-step">Step 05d</span>
+              <span class="proto-index-title">Wellness Check-in — empty form</span>
+              <span class="proto-index-desc">Just a name. Minimum-friction case.</span>
+            </a>
+            <a href="05d-filled.html" class="proto-index-link">
+              <span class="proto-index-step">Step 05d-filled</span>
+              <span class="proto-index-title">Wellness Check-in — filled</span>
+              <span class="proto-index-desc">Name typed in. Start enabled.</span>
+            </a>
+            <a href="05e-with-optional.html" class="proto-index-link">
+              <span class="proto-index-step">Step 05e</span>
+              <span class="proto-index-title">Lab Results — with optional fields</span>
+              <span class="proto-index-desc">Mandatory + optional mix. Demonstrates the <code>(optional)</code> field hint from the source schema.</span>
+            </a>
+            <a href="06-variables-errors.html" class="proto-index-link">
+              <span class="proto-index-step">Step 06</span>
+              <span class="proto-index-title">Variables — submit blocked</span>
+              <span class="proto-index-desc">User pressed Start with all 5 mandatory Appointment Reminder fields empty. Each shows an inline error.</span>
+            </a>
+            <a href="06b-variables-submitting.html" class="proto-index-link">
+              <span class="proto-index-step">Step 06b</span>
+              <span class="proto-index-title">Variables — submitting</span>
+              <span class="proto-index-desc">Form locked, button shows typing indicator + "Starting the call…" while the mint API is in flight.</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="proto-index-section">
+          <p class="proto-index-section-title">3 · Live call</p>
+          <div class="proto-index-grid">
+            <a href="07-call-connecting.html" class="proto-index-link">
+              <span class="proto-index-step">Step 07</span>
+              <span class="proto-index-title">Call — connecting</span>
+              <span class="proto-index-desc">Inline call card. Orb dim, slow pulse.</span>
+            </a>
+            <a href="08-call-listening.html" class="proto-index-link">
+              <span class="proto-index-step">Step 08</span>
+              <span class="proto-index-title">Call — live, listening</span>
+              <span class="proto-index-desc">Same card, agent listening. Orb gentle breath.</span>
+            </a>
+            <a href="09-call-speaking.html" class="proto-index-link">
+              <span class="proto-index-step">Step 09</span>
+              <span class="proto-index-title">Call — live, speaking</span>
+              <span class="proto-index-desc">Orb fast pulse, brighter aura.</span>
+            </a>
+            <a href="09d-call-ending.html" class="proto-index-link">
+              <span class="proto-index-step">Step 09d</span>
+              <span class="proto-index-title">Call — hanging up</span>
+              <span class="proto-index-desc">User pressed End. Pill reads "Hanging up…", orb fades, button disabled while disconnect is in flight.</span>
+            </a>
+            <a href="10-call-ended.html" class="proto-index-link">
+              <span class="proto-index-step">Step 10</span>
+              <span class="proto-index-title">Call ended — Appointment Reminder</span>
+              <span class="proto-index-desc">Outcome: Confirmed. Patient confirmed their appointment.</span>
+            </a>
+            <a href="10b-call-ended-prescription.html" class="proto-index-link">
+              <span class="proto-index-step">Step 10b</span>
+              <span class="proto-index-title">Call ended — Prescription Refill</span>
+              <span class="proto-index-desc">Outcome: Refill requested. Sent to Acme Pharmacy with text-message handoff.</span>
+            </a>
+            <a href="10c-call-ended-lab-results.html" class="proto-index-link">
+              <span class="proto-index-step">Step 10c</span>
+              <span class="proto-index-title">Call ended — Lab Results Follow-up</span>
+              <span class="proto-index-desc">Outcome: Results reviewed. Neutral framing; clinician handoff for flagged concerns.</span>
+            </a>
+            <a href="10d-call-ended-wellness.html" class="proto-index-link">
+              <span class="proto-index-step">Step 10d</span>
+              <span class="proto-index-title">Call ended — Wellness Check-in</span>
+              <span class="proto-index-desc">Outcome: Check-in complete. Relational framing; updates noted for care team.</span>
+            </a>
+            <a href="10e-call-ended-timeout.html" class="proto-index-link">
+              <span class="proto-index-step">Step 10e</span>
+              <span class="proto-index-title">Call ended — time's up</span>
+              <span class="proto-index-desc">Server-enforced duration cap reached. Warning-coloured outcome icon, distinct copy from user-hangup.</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="proto-index-section">
+          <p class="proto-index-section-title">4 · Failure modes</p>
+          <div class="proto-index-grid">
+            <a href="11-call-error.html" class="proto-index-link">
+              <span class="proto-index-step">Step 11</span>
+              <span class="proto-index-title">Call error</span>
+              <span class="proto-index-desc">Q surfaces the failure conversationally + retry chip.</span>
+            </a>
+            <a href="11b-mic-denied.html" class="proto-index-link">
+              <span class="proto-index-step">Step 11b</span>
+              <span class="proto-index-title">Mic permission denied</span>
+              <span class="proto-index-desc">Browser blocked microphone access. Danger-coloured callout with browser-settings recovery instructions.</span>
+            </a>
+            <a href="11c-connection-lost.html" class="proto-index-link">
+              <span class="proto-index-step">Step 11c</span>
+              <span class="proto-index-title">Connection lost mid-call</span>
+              <span class="proto-index-desc">LiveKit room dropped without explicit hangup. Warning callout, retry preserves details.</span>
+            </a>
+            <a href="12-at-capacity.html" class="proto-index-link">
+              <span class="proto-index-step">Step 12</span>
+              <span class="proto-index-title">At capacity</span>
+              <span class="proto-index-desc">Yellow callout, retry-after countdown, soft framing.</span>
+            </a>
+            <a href="13-unavailable.html" class="proto-index-link">
+              <span class="proto-index-step">Step 13</span>
+              <span class="proto-index-title">Unavailable</span>
+              <span class="proto-index-desc">Maintenance mode. Calm callout, no retry button.</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="proto-index-section">
+          <p class="proto-index-section-title">5 · Layout-contract demos</p>
+          <div class="proto-index-grid">
+            <a href="demo-streaming.html" class="proto-index-link">
+              <span class="proto-index-step">Demo</span>
+              <span class="proto-index-title">Streaming response</span>
+              <span class="proto-index-desc">Click to stream AI tokens. Shows the cursor and layout stability.</span>
+            </a>
+            <a href="demo-long-thread.html" class="proto-index-link">
+              <span class="proto-index-step">Demo</span>
+              <span class="proto-index-title">Long thread + virtualization toggle</span>
+              <span class="proto-index-desc">100 messages. Toggle document scroll vs <code>data-virtualized</code> mode.</span>
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="chat-input-bar">
+      <div class="chat-input">
+        <textarea class="chat-input__textarea" rows="1" placeholder="Describe what you'd like to try…"></textarea>
+        <div class="chat-input__row">
+          <button type="button" class="chat-input__chip" aria-label="Open prototype index">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            All states
+          </button>
+          <div class="chat-input__icons">
+            <button type="button" class="chat-icon-btn" aria-label="Voice input">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+            </button>
+            <button type="button" class="chat-icon-btn" aria-label="Send">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7Z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <footer class="q-footer" aria-labelledby="footer-heading">
+    <h2 id="footer-heading" class="q-sr-only">Site footer</h2>
+    <div class="q-footer-inner">
+      <div class="q-footer-grid">
+
+        <div class="q-footer-about">
+          <h3 class="q-footer-about__title">About Q</h3>
+          <p class="q-footer-about__text">
+            Q is a managed AI service that handles the clinical and operational workflow layer so your organization can stop managing complexity and start delivering results.
+          </p>
+          <a class="q-footer-social" href="https://www.linkedin.com/company/quadrivia-ai/" target="_blank" rel="noopener" aria-label="Quadrivia on LinkedIn">
+            <svg viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+          </a>
+        </div>
+
+        <nav class="q-footer-nav" aria-label="Footer">
+
+          <div class="q-footer-col">
+            <h3 class="q-footer-col__title"><a href="/why-q">What is Q</a></h3>
+            <ul class="q-footer-col__list">
+              <li><a href="/why-q">Why Q</a></li>
+              <li><a href="/how-q-works">How Q Works</a></li>
+              <li><a href="/qs-performance">Q's Performance</a></li>
+              <li><a href="/safety-compliance">Safety &amp; Compliance</a></li>
+            </ul>
+          </div>
+
+          <div class="q-footer-col">
+            <h3 class="q-footer-col__title"><a href="/whos-q-for">Who's Q for</a></h3>
+            <ul class="q-footer-col__list">
+              <li><a href="/health-systems">Health Systems</a></li>
+              <li><a href="/provider-groups-physician-practices">Provider Groups &amp; Physician Practices</a></li>
+              <li><a href="/payors-health-plans">Payors &amp; Health Plans</a></li>
+              <li><a href="/pharma-life-sciences">Pharma &amp; Life Sciences</a></li>
+              <li><a href="/digital-health">Digital Health</a></li>
+              <li><a href="/gp-practices-nhs-adjacent-organizations">GP Practices &amp; NHS-Adjacent Organizations</a></li>
+            </ul>
+          </div>
+
+          <div class="q-footer-col">
+            <h3 class="q-footer-col__title"><a href="/research-earning-autonomy">Resources</a></h3>
+            <ul class="q-footer-col__list">
+              <li><a href="/research-earning-autonomy">Earning Autonomy</a></li>
+              <li><a href="/research-self-healing-ai">Healthcare Can't Scale. Healthcare AI that Heals Itself Can.</a></li>
+            </ul>
+          </div>
+
+          <div class="q-footer-col">
+            <h3 class="q-footer-col__title"><a href="/about-q">Company</a></h3>
+            <ul class="q-footer-col__list">
+              <li><a href="/about-q">About us</a></li>
+              <li><a href="/contact-us">Contact us</a></li>
+            </ul>
+          </div>
+
+        </nav>
+      </div>
+
+      <div class="q-footer-legal">
+        <p>Copyright &copy; 2026 Q powered by Quadrivia AI</p>
+        <a href="/legal">Legal</a>
+      </div>
+    </div>
+  </footer>
+  <script src="proto-stepper.js" defer></script>
+</body>
+</html>

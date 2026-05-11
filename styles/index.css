@@ -1,0 +1,39 @@
+/* =============================================================================
+ * Quadrivia chat-mode prototype — STYLE ENTRY POINT
+ *
+ * This file orchestrates the full stylesheet by importing each module in
+ * cascade order. Every HTML page links to this file ONLY:
+ *
+ *   <link rel="stylesheet" href="styles/index.css">
+ *
+ * Architecture (ITCSS-lite):
+ *
+ *   1. SETTINGS       tokens.css        Design tokens (only :root vars)
+ *   2. GENERIC        base.css          Reset + html/body + font import
+ *   3. LAYOUT         layout.css        Site shell (nav, footer, chat-page)
+ *   4. COMPONENTS                       Self-contained UI blocks; each file
+ *                                       maps to a future React component
+ *      ├── chat-message.css             Messages, avatar, AI body, typing
+ *      ├── chat-panel.css               Panel, action grid, suggestions, AI actions
+ *      ├── chat-form.css                Form, fields, validation, buttons
+ *      ├── chat-call.css                Call card, ended state, outcome, orb
+ *      ├── chat-callout.css             Status callouts (warn / danger / info)
+ *      └── chat-input.css               Input bar + agent picker popover
+ *   5. PROTOTYPE      prototype.css     Demo-only chrome (drop on React port)
+ *
+ * MIGRATION NOTE
+ * Component files are sized for 1:1 mapping with React components — pull each
+ * file into its component module and convert to CSS modules / Tailwind /
+ * styled-components without restructuring. Tokens become theme/CSS vars.
+ * ========================================================================== */
+
+@import url("./tokens.css");
+@import url("./base.css");
+@import url("./layout.css");
+@import url("./chat-message.css");
+@import url("./chat-panel.css");
+@import url("./chat-form.css");
+@import url("./chat-call.css");
+@import url("./chat-callout.css");
+@import url("./chat-input.css");
+@import url("./prototype.css");

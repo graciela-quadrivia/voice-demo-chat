@@ -1,0 +1,213 @@
+/* =============================================================================
+ * CHAT CALL — call card (active + ended), outcome, status pill, orb
+ *
+ * Future React mapping:
+ *   <CallCard state="connecting" | "listening" | "speaking" | "ended">
+ *     <CallPill state="live" | "ended">…</CallPill>
+ *     <Orb state={state} />
+ *     <CallTitle />
+ *     <CallHint />
+ *   </CallCard>
+ *
+ *   Ended variant has its own outcome layout:
+ *   <CallCard variant="ended">
+ *     <Outcome icon="success" label="Visit confirmed" detail="…" />
+ *     <CallPill state="ended" />
+ *   </CallCard>
+ * ========================================================================== */
+
+/* ── Inline call card ───────────────────────────────────────────────────── */
+.chat-call-card {
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-subtle);
+  padding: clamp(24px, 3vw, 32px) clamp(20px, 2.5vw, 28px) clamp(20px, 2.5vw, 28px);
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+/* ── Slot architecture (forward-compatible) ──────────────────────────────
+ * Direct-child markup (current usage) still works — slots are additive,
+ * not required. Use them when adding voice features that don't fit the
+ * existing layout: live captions, mute/hold/transfer controls, network
+ * quality indicator, error-recovery affordances.
+ *
+ * Markup contract:
+ *   <div class="chat-call-card">
+ *     <div class="chat-call-card__header">    title + status pill
+ *     <div class="chat-call-card__visual">    orb / waveform / captions
+ *     <div class="chat-call-card__controls">  mute / hold / transfer / send
+ *     <div class="chat-call-card__footer">    hint / metadata
+ *   </div>
+ *
+ * Each slot is a flex container; controls slot flips to row layout for
+ * the horizontal button group pattern. */
+.chat-call-card__header,
+.chat-call-card__visual,
+.chat-call-card__footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.chat-call-card__controls {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.chat-call-card__title {
+  font-size: var(--text-base);
+  font-weight: 600;
+  margin: 0;
+}
+.chat-call-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--text-meta);
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-brand-teal);
+  background: var(--color-bg-surface);
+  color: var(--color-fg-default);
+}
+.chat-call-pill__dot {
+  width: 6px; height: 6px;
+  border-radius: var(--radius-circle);
+  background: var(--color-brand-teal);
+}
+.chat-call-pill[data-state="live"] .chat-call-pill__dot {
+  animation: chat-pill-blink 1.4s ease-in-out infinite;
+}
+.chat-call-pill[data-state="ended"] {
+  border-color: var(--color-border-emphasis);
+  color: var(--color-fg-subtle);
+}
+.chat-call-pill[data-state="ended"] .chat-call-pill__dot { background: var(--color-fg-faint); }
+@keyframes chat-pill-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+.chat-call-card__hint {
+  font-size: var(--text-small);
+  color: var(--color-fg-muted);
+  margin: 0;
+}
+
+/* ── Call-ended state — outcome is the visual hero, not the orb ─────────
+ * Pattern matches Stripe success states and FaceTime end-of-call cards:
+ * status icon (success-coloured circle with check), big outcome label,
+ * one-line explanation, then minimal metadata at the bottom. */
+.chat-call-card[data-state="ended"] {
+  padding: clamp(32px, 5vw, 48px) clamp(24px, 4vw, 40px) clamp(28px, 4vw, 36px);
+  gap: 20px;
+  /* The ended card is followed by transition copy ("That's how the agent…")
+   * — without a bottom margin, the next paragraph sits flush against the
+   * card and reads as cramped after a heavy result block. 24px buys the
+   * paragraph room to breathe and matches the visual rhythm between
+   * sibling messages in the thread. */
+  margin-bottom: 24px;
+}
+.chat-outcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 8px 0;
+}
+.chat-outcome__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-circle);
+  background: var(--color-status-success);   /* brand teal — default (success) */
+  color: var(--color-fg-on-brand);            /* white check */
+  display: grid;
+  place-items: center;
+}
+.chat-outcome__icon svg {
+  stroke-width: 3;                            /* heavier check at large size */
+}
+/* Outcome variants — pair the icon background with status colors. Yellow
+ * uses black foreground (legibility); coral and blue keep white. */
+.chat-outcome--warning .chat-outcome__icon { background: var(--color-status-warning); color: var(--color-fg-on-yellow); }
+.chat-outcome--danger  .chat-outcome__icon { background: var(--color-status-danger);  color: var(--color-fg-on-brand); }
+.chat-outcome--info    .chat-outcome__icon { background: var(--color-status-info);    color: var(--color-fg-on-yellow); }
+.chat-outcome__label {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--color-fg-default);
+  line-height: 1.2;
+}
+.chat-outcome__detail {
+  font-size: var(--text-body);
+  color: var(--color-fg-muted);
+  margin: 0;
+  max-width: 32ch;
+  line-height: 1.5;
+}
+
+/* ── Orb — animated voice indicator, scaled for chat ────────────────────── */
+.chat-orb {
+  position: relative;
+  width: 140px; height: 140px;
+  display: grid;
+  place-items: center;
+  margin: 4px auto;
+}
+.chat-orb__aura,
+.chat-orb__core {
+  position: absolute;
+  border-radius: var(--radius-circle);
+  inset: 0;
+}
+.chat-orb__aura {
+  background: radial-gradient(
+    circle at center,
+    hsl(var(--q-color-teal-h) var(--q-color-teal-s) var(--q-color-teal-l) / 0.40) 0%,
+    hsl(var(--q-color-teal-h) var(--q-color-teal-s) var(--q-color-teal-l) / 0.10) 40%,
+    transparent 70%
+  );
+  filter: blur(8px);
+}
+.chat-orb__core {
+  width: 60%; height: 60%; inset: 20%;
+  background: radial-gradient(
+    circle at 35% 30%,
+    color-mix(in oklab, var(--color-brand-teal), white 40%) 0%,
+    var(--color-brand-teal) 55%,
+    color-mix(in oklab, var(--color-brand-teal), black 25%) 100%
+  );
+  box-shadow:
+    0 0 30px hsl(var(--q-color-teal-h) var(--q-color-teal-s) var(--q-color-teal-l) / 0.40),
+    inset 0 0 18px hsl(var(--q-color-teal-h) var(--q-color-teal-s) var(--q-color-teal-l) / 0.5);
+}
+.chat-orb[data-state="connecting"] .chat-orb__aura { animation: chat-orb-aura-slow 2.4s ease-in-out infinite; opacity: 0.5; }
+.chat-orb[data-state="connecting"] .chat-orb__core { animation: chat-orb-core-slow 2.4s ease-in-out infinite; opacity: 0.7; }
+.chat-orb[data-state="listening"]  .chat-orb__aura { animation: chat-orb-aura-medium 3s ease-in-out infinite; }
+.chat-orb[data-state="listening"]  .chat-orb__core { animation: chat-orb-core-medium 3s ease-in-out infinite; }
+.chat-orb[data-state="speaking"]   .chat-orb__aura { animation: chat-orb-aura-fast 0.7s ease-in-out infinite; }
+.chat-orb[data-state="speaking"]   .chat-orb__core { animation: chat-orb-core-fast 0.7s ease-in-out infinite; }
+.chat-orb[data-state="ended"]      .chat-orb__aura { opacity: 0.18; }
+.chat-orb[data-state="ended"]      .chat-orb__core { opacity: 0.45; }
+
+@keyframes chat-orb-aura-slow   { 0%,100% { transform: scale(0.95); opacity: 0.45; } 50% { transform: scale(1.06); opacity: 0.65; } }
+@keyframes chat-orb-core-slow   { 0%,100% { transform: scale(0.97); }                50% { transform: scale(1.02); } }
+@keyframes chat-orb-aura-medium { 0%,100% { transform: scale(1);    opacity: 0.55; } 50% { transform: scale(1.10); opacity: 0.85; } }
+@keyframes chat-orb-core-medium { 0%,100% { transform: scale(1); }                   50% { transform: scale(1.04); } }
+@keyframes chat-orb-aura-fast   { 0%,100% { transform: scale(1);    opacity: 0.65; } 50% { transform: scale(1.20); opacity: 1; } }
+@keyframes chat-orb-core-fast   { 0%,100% { transform: scale(1); }                   50% { transform: scale(1.10); } }

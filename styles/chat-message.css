@@ -1,0 +1,173 @@
+/* =============================================================================
+ * CHAT MESSAGE — message bubbles, avatar, AI body content, typing indicator
+ *
+ * Future React mapping:
+ *   <ChatMessage variant="user" | "ai">
+ *     <Avatar state="default" | "warning" | "danger" | "info" />
+ *     <ChatAIBody>
+ *       <ChatAIList />
+ *       …slot for embedded panels/forms/cards…
+ *       <ChatAIActions />
+ *     </ChatAIBody>
+ *   </ChatMessage>
+ *   <ChatTyping />
+ * ========================================================================== */
+
+/* ── Performance: per-message layout containment ─────────────────────────
+ * `contain: layout style` tells the browser that changes inside one message
+ * (text streaming, hover state, attribute toggle) cannot affect the layout
+ * of siblings. Big perf win on long threads even WITHOUT a virtualizer. */
+.chat-message--user,
+.chat-message--ai {
+  contain: layout style;
+}
+
+/* ── User message — right-aligned, white pill ───────────────────────────── */
+.chat-message--user {
+  align-self: flex-end;
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-2xl);
+  padding: clamp(12px, 1.4vw, 16px) clamp(18px, 2.2vw, 24px);
+  max-width: 80%;
+  font-size: var(--text-body-lg);
+  line-height: 1.5;
+  color: var(--color-fg-default);
+  box-shadow: 0 1px 2px var(--color-shadow-tiny);
+}
+
+/* ── AI message — left-aligned, avatar + content ────────────────────────── */
+.chat-message--ai {
+  display: flex;
+  gap: clamp(12px, 1.4vw, 16px);
+  align-items: flex-start;
+}
+
+/* ── Streaming state — token-by-token AI response ────────────────────────
+ * Contract for the React port:
+ *   <ChatMessage variant="ai" streaming={isStreaming}>
+ *     {textSoFar}
+ *   </ChatMessage>
+ *
+ * The component sets `data-streaming` on the message while the stream is
+ * open and removes it when the stream completes. CSS:
+ *   • Reserves one line of min-height (avoids micro-flicker between empty
+ *     bubble and first token).
+ *   • Renders a blinking cursor at the end of the streamed content via a
+ *     pseudo-element (no DOM node per message — clean unmount).
+ *
+ * Reduced motion: the cursor stays visible; only the blink animation is
+ * suppressed by the global `prefers-reduced-motion` rule in base.css. */
+.chat-message--ai[data-streaming] .chat-message__body {
+  min-height: 1.6em;
+}
+.chat-message--ai[data-streaming] .chat-message__body::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--color-fg-muted);
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: chat-cursor-blink 1s steps(2) infinite;
+}
+@keyframes chat-cursor-blink {
+  50% { opacity: 0; }
+}
+
+/* ── Avatar — Q ring with single-colour brand fill ──────────────────────
+ * State-driven via modifier classes so the avatar communicates message
+ * tone without competing with the logo or the inline status callouts.
+ *
+ * Default — teal (Q-as-default-dominant). Modifiers: --warning / --danger
+ * / --info on the same element when the message carries that status.
+ *
+ * The inner-circle pseudo-element matches the chat-page band colour, so
+ * the avatar reads as a hollow ring against the band. */
+.chat-avatar {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border-radius: var(--radius-circle);
+  background: var(--color-brand-teal);
+  position: relative;
+}
+.chat-avatar--warning { background: var(--color-status-warning); }
+.chat-avatar--danger  { background: var(--color-status-danger); }
+.chat-avatar--info    { background: var(--color-status-info); }
+
+.chat-avatar::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: var(--radius-circle);
+  background: var(--mkt-grey-50);
+}
+
+/* ── AI body — message content next to the avatar ───────────────────────── */
+.chat-message__body {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--text-body-lg);
+  line-height: 1.6;
+  color: var(--color-fg-default);
+  /* Align the first-line visual center with the 32px avatar's center.
+   *   avatar: 32px tall → center at y=16
+   *   first text line: 1.6 × 15px = 24px tall → visual center at y=12
+   *   gap: 4px (avatar reads slightly low without this nudge)
+   * padding-top: 4px pushes text down so first-line center = avatar center.
+   * Same technique used by Linear, ChatGPT, and Claude chat surfaces. */
+  padding-top: 4px;
+}
+.chat-message__body p { margin: 0 0 12px; }
+.chat-message__body p:last-child { margin-bottom: 0; }
+.chat-message__body strong { font-weight: 600; }
+.chat-message__body code {
+  background: var(--color-overlay-subtle);
+  border-radius: var(--radius-xs);
+  padding: 1px 6px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+
+/* ── AI list — bulleted enumeration inside the AI message body ──────────── */
+.chat-message__list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chat-message__list li {
+  position: relative;
+  padding-left: 18px;
+  line-height: 1.55;
+}
+.chat-message__list li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.65em;
+  width: 6px; height: 6px;
+  border-radius: var(--radius-circle);
+  background: var(--color-brand-teal);
+  opacity: 0.7;
+}
+
+/* ── Typing indicator — three pulsing dots ──────────────────────────────── */
+.chat-typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+}
+.chat-typing__dot {
+  width: 7px; height: 7px;
+  border-radius: var(--radius-circle);
+  background: var(--color-fg-placeholder);
+  animation: chat-typing-pulse 1.2s ease-in-out infinite;
+}
+.chat-typing__dot:nth-child(2) { animation-delay: 0.15s; }
+.chat-typing__dot:nth-child(3) { animation-delay: 0.30s; }
+@keyframes chat-typing-pulse {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(0.85); }
+  30%          { opacity: 1;   transform: scale(1); }
+}

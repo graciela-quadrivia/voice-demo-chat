@@ -1,0 +1,271 @@
+/* =============================================================================
+ * TOKENS — design system foundation
+ *
+ * Three-tier model:
+ *   1. PRIMITIVES         Raw HSL channels and base values. Never used directly
+ *                         by components.
+ *   2. DERIVED PRIMITIVES color-mix tints/shades of primitives. Used for hover
+ *                         states, light-fills, and tonal variants.
+ *   3. SEMANTIC TOKENS    Role-based aliases. The ONLY tokens components
+ *                         reference (--color-fg-default, --color-brand-teal,
+ *                         etc.). Renaming or recolouring happens here.
+ *
+ * RESPONSIVE SCALE — fluid spacing tokens at the bottom of :root.
+ * Used by layout rules to scale gutters/padding with viewport width.
+ *
+ *   Breakpoints (consumed via @media in component files):
+ *     • Phone     < 640px
+ *     • Tablet+   ≥ 640px
+ *     • Desktop+  ≥ 1024px
+ *     • Site nav fits at 768px (content-fit, not viewport tier)
+ *     • Footer 4-col grid fits at 1140px (content-fit, not viewport tier)
+ *
+ *   Spacing tokens scale fluidly between phone and desktop:
+ *     • --gutter-x         horizontal page gutter        (16 → 32px)
+ *     • --space-y-band     vertical chat-page band       (40 → 80px)
+ *     • --space-y-section  between major chat sections   (24 → 40px)
+ * ========================================================================== */
+
+:root {
+  /* ── 1. PRIMITIVES ────────────────────────────────────────────────────── */
+
+  /* Brand color HSL channels — split for color-mix(), alpha overrides, and
+   * gradient effects (e.g. the call orb radiates with teal channels). */
+  --q-color-teal-h: 180;
+  --q-color-teal-s: 71%;
+  --q-color-teal-l: 46%;
+  --q-color-yellow-h: 48;
+  --q-color-yellow-s: 100%;
+  --q-color-yellow-l: 50%;
+  --q-color-pink-h: 332;
+  --q-color-pink-s: 93%;
+  --q-color-pink-l: 55%;
+  --q-color-light-blue-h: 193;
+  --q-color-light-blue-s: 99%;
+  --q-color-light-blue-l: 62%;
+
+  /* Composed primitives */
+  --q-color-teal-500: hsl(var(--q-color-teal-h) var(--q-color-teal-s) var(--q-color-teal-l));
+  --q-color-yellow-500: hsl(var(--q-color-yellow-h) var(--q-color-yellow-s) var(--q-color-yellow-l));
+  --q-color-pink-500: hsl(var(--q-color-pink-h) var(--q-color-pink-s) var(--q-color-pink-l));
+  --q-color-light-blue-500: hsl(var(--q-color-light-blue-h) var(--q-color-light-blue-s) var(--q-color-light-blue-l));
+  --q-color-coral-500: hsl(356 85% 67%);
+
+  /* Neutrals */
+  --q-color-white: hsl(0 0% 100%);
+  --q-color-black: hsl(0 0% 0%);
+  --q-color-black-a-65: hsla(0 0% 0% / 0.65);
+
+  /* Marketing greys — used for the chat-page band background and dividers */
+  --mkt-grey-50: hsl(0 0% 96%);     /* #F5F5F5 */
+  --mkt-grey-100: hsl(220 14% 91%); /* #E3E6EC */
+
+  /* ── 2. DERIVED PRIMITIVES ───────────────────────────────────────────── */
+
+  --q-color-teal-100: color-mix(in oklab, var(--q-color-teal-500), white 88%);
+  --q-color-teal-600: color-mix(in oklab, var(--q-color-teal-500), black 10%);
+
+  /* ── 3. SEMANTIC TOKENS — components reference ONLY these ───────────── */
+
+  /* Backgrounds */
+  --color-bg-canvas: var(--q-color-white);
+  --color-bg-surface: var(--q-color-white);
+
+  /* Foregrounds (text & icons) */
+  --color-fg-default: var(--q-color-black);
+  --color-fg-muted: var(--q-color-black-a-65);
+  --color-fg-on-brand: var(--q-color-white);
+  --color-fg-on-yellow: var(--q-color-black);
+
+  /* Brand */
+  --color-brand-teal: var(--q-color-teal-500);
+  --color-brand-yellow: var(--q-color-yellow-500);
+  --color-brand-pink: var(--q-color-pink-500);
+  --color-brand-teal-tint: var(--q-color-teal-100);     /* tinted brand surface (hover/active bg) */
+  --color-brand-teal-tint-fg: var(--q-color-teal-600);  /* text/icon on a tinted brand surface */
+
+  /* Borders */
+  --color-border-divider: var(--mkt-grey-100);
+
+  /* Status */
+  --color-status-info: var(--q-color-light-blue-500);
+  --color-status-warning: var(--q-color-yellow-500);
+  --color-status-danger: var(--q-color-coral-500);
+  --color-status-success: var(--q-color-teal-500);
+
+  /* ── Alpha-color system — surface tints, fg shades, shadows ──────────
+   * Replaces literal rgba(0,0,0,X) values across components. Components
+   * reference these by ROLE; switching themes means redefining them in the
+   * theme override block at the end of this file. */
+
+  /* Foreground shades (alpha-on-default-fg: text, icons) */
+  --color-fg-strong:      rgba(0, 0, 0, 0.85);  /* btn--primary hover */
+  --color-fg-emphasis:    rgba(0, 0, 0, 0.75);  /* icon-btn hover */
+  /* --color-fg-muted (0.65) defined above as semantic primary token */
+  --color-fg-subtle:      rgba(0, 0, 0, 0.55);  /* tertiary labels, eyebrows */
+  --color-fg-faint:       rgba(0, 0, 0, 0.45);  /* icon-btn default, optional labels */
+  --color-fg-placeholder: rgba(0, 0, 0, 0.35);  /* form placeholders, decorative dots */
+
+  /* Borders */
+  --color-border-subtle:   rgba(0, 0, 0, 0.06);  /* default borders */
+  --color-border-base:     rgba(0, 0, 0, 0.08);  /* slightly stronger */
+  --color-border-strong:   rgba(0, 0, 0, 0.12);  /* form inputs, suggestions */
+  --color-border-emphasis: rgba(0, 0, 0, 0.15);  /* btn--secondary, call-pill ended */
+
+  /* Surface overlays — hover bgs, code bg, decorative tints */
+  --color-overlay-faint:   rgba(0, 0, 0, 0.04);  /* btn--secondary hover bg */
+  --color-overlay-subtle:  rgba(0, 0, 0, 0.05);  /* inline code bg, btn--ghost / icon-btn hover */
+  --color-overlay-strong:  rgba(0, 0, 0, 0.78);  /* high-contrast chrome (proto-stepper) */
+
+  /* Shadows — kept distinct from overlays. Shadow physics: stay dark across
+   * themes (shadows are projected darkness). Overlays flip white on dark. */
+  --color-shadow-tiny:     rgba(0, 0, 0, 0.03);  /* user message ambient lift */
+  --color-shadow-subtle:   rgba(0, 0, 0, 0.04);  /* input pill ambient */
+  --color-shadow-base:     rgba(0, 0, 0, 0.05);  /* card hover lift */
+  --color-shadow-elevated: rgba(0, 0, 0, 0.10);  /* picker popover */
+
+  /* Brand tints — channel-aware so they survive theme changes */
+  --color-focus-ring: hsl(var(--q-color-teal-h) var(--q-color-teal-s) var(--q-color-teal-l) / 0.15);
+
+  /* Type scale — semantic role-based.
+   * Components reference these by ROLE, not size. Adjust the rem values
+   * here to rescale the entire chat surface without touching components. */
+  --text-micro:    0.6875rem;     /* 11px — eyebrows, micro labels (UPPERCASE) */
+  --text-meta:     0.75rem;       /* 12px — descriptions, metadata, action confirms */
+  --text-small:    0.8125rem;     /* 13px — secondary body, chips, callout desc */
+  --text-body:     0.875rem;      /* 14px — primary body, form inputs, button labels */
+  --text-body-lg:  0.9375rem;     /* 15px — chat message body, panel titles */
+  --text-base:     1rem;          /* 16px — base scale, mobile nav links */
+  --text-h3:       1.125rem;      /* 18px — small headings (footer about title) */
+  --text-h2:       1.375rem;      /* 22px — section headings (proto-demo intro) */
+  --text-h1:       1.5rem;        /* 24px — large headings (outcome label) */
+  --text-display:  1.75rem;       /* 28px — display (typographic Q avatar) */
+
+  /* Spacing scale (rem-based) */
+  --q-space-2: 0.5rem;
+  --q-space-3: 0.75rem;
+  --q-space-4: 1rem;
+  --q-space-5: 1.25rem;
+  --q-space-6: 1.5rem;
+  --q-space-8: 2rem;
+  --q-space-12: 3rem;
+
+  /* Radius scale */
+  --radius-xs:     4px;           /* inline code */
+  --radius-sm:     8px;           /* chips, small icons */
+  --radius-md:     10px;          /* buttons, inputs, list items */
+  --radius-lg:     12px;          /* action cards */
+  --radius-xl:     16px;          /* panels, call cards, callouts */
+  --radius-2xl:    22px;          /* input pill, user message bubble */
+  --radius-pill:   9999px;        /* pills (CTAs, suggestions, status pills) */
+  --radius-circle: 50%;           /* circular elements (avatar, dots) */
+
+  /* Z-index scale — only one value per layer; never invent inline numbers. */
+  --z-base:     1;                /* default stacking */
+  --z-sticky:   10;               /* sticky elements (reserved) */
+  --z-overlay:  40;               /* mobile menu, side drawers */
+  --z-popover:  100;              /* dropdowns, picker, tooltips */
+  --z-modal:    200;              /* modal dialogs (reserved) */
+  --z-toast:    500;              /* toasts, alerts (reserved) */
+  --z-dev:      9999;             /* dev/prototype overlays */
+
+  /* Duration scale — for UI transitions only. Animation loop durations
+   * (orb states, typing pulse, pill blink) stay inline because they're
+   * semantically tied to component states. */
+  --duration-instant: 80ms;       /* button press feedback */
+  --duration-fast:    120ms;      /* hover/focus state changes */
+  --duration-base:    160ms;      /* color/background transitions */
+  --duration-slow:    240ms;      /* drawer/dialog transitions (reserved) */
+
+  /* Shadows */
+  --q-shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.06);
+
+  /* ── 4. RESPONSIVE FLUID SCALE ──────────────────────────────────────── */
+
+  --gutter-x: clamp(16px, 4vw, 32px);
+  --space-y-band: clamp(2.5rem, 6vw, 5rem);
+  --space-y-section: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+
+/* =============================================================================
+ * THEME OVERRIDES — dark mode placeholder
+ *
+ * Components reference SEMANTIC tokens only (see :root above). Switching
+ * the theme means redefining tokens HERE — no component changes needed.
+ *
+ * STATUS: structure is in place; dark colour values are NOT YET TUNED. Filling
+ * this in is a design exercise (which teal works on dark? what's the dark-mode
+ * border-subtle alpha?). Activating early will yield a "literal-inversion" dark
+ * mode that won't feel right.
+ *
+ * To activate when ready:
+ *   <html data-theme="dark"> for explicit choice
+ *   Add `, @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {...} }`
+ *   for system-preference auto-switching.
+ * ========================================================================== */
+
+[data-theme="dark"] {
+  /* PREVIEW MODE — values are reasonable defaults, NOT design-tuned. */
+
+  /* Surfaces — three tonal stops: canvas (page chrome) → grey-50 (chat band)
+   * → bg-surface (cards/panels). Keeps the "depressed band" delimitation. */
+  --color-bg-canvas:  hsl(220 8% 10%);
+  --mkt-grey-50:      hsl(220 8% 12%);
+  --color-bg-surface: hsl(220 8% 16%);
+
+  /* Border-divider used by nav/footer */
+  --color-border-divider: hsla(0 0% 100% / 0.10);
+
+  /* Foreground — white-with-alpha scale */
+  --color-fg-default:     hsl(0 0% 95%);
+  --color-fg-muted:       hsla(0 0% 100% / 0.70);
+  --color-fg-subtle:      hsla(0 0% 100% / 0.55);
+  --color-fg-faint:       hsla(0 0% 100% / 0.40);
+  --color-fg-placeholder: hsla(0 0% 100% / 0.30);
+  --color-fg-emphasis:    hsla(0 0% 100% / 0.85);
+  --color-fg-strong:      hsl(0 0% 100%);
+
+  /* Borders — bumped slightly higher than light mode (white-on-dark needs more) */
+  --color-border-subtle:   hsla(0 0% 100% / 0.08);
+  --color-border-base:     hsla(0 0% 100% / 0.12);
+  --color-border-strong:   hsla(0 0% 100% / 0.18);
+  --color-border-emphasis: hsla(0 0% 100% / 0.24);
+
+  /* Overlays — hover surfaces LIGHTEN with white tint */
+  --color-overlay-faint:  hsla(0 0% 100% / 0.04);
+  --color-overlay-subtle: hsla(0 0% 100% / 0.06);
+  /* --color-overlay-strong unchanged — black overlay on dark bg still gives
+   * the proto-stepper enough contrast for its white text. */
+
+  /* Shadows — bumped alpha so they read against the dark bg */
+  --color-shadow-tiny:     hsla(0 0% 0% / 0.30);
+  --color-shadow-subtle:   hsla(0 0% 0% / 0.35);
+  --color-shadow-base:     hsla(0 0% 0% / 0.40);
+  --color-shadow-elevated: hsla(0 0% 0% / 0.50);
+
+  /* Primary button hover — light mode goes "black → 85% black" (visibly
+   * softens). For symmetry in dark mode, white default → light gray hover. */
+  --color-fg-strong: hsl(0 0% 80%);
+
+  /* Focus ring — brighter teal + more alpha so it pops on dark bg */
+  --color-focus-ring: hsl(var(--q-color-teal-h) 65% 65% / 0.35);
+
+  /* Brand-tinted surfaces — flip from "near-white" (88% white tint) to a
+   * subtle dark-teal wash. The matching foreground flips from "dark teal"
+   * to "light teal" so text on the tinted bg stays legible. */
+  --color-brand-teal-tint:    hsl(var(--q-color-teal-h) var(--q-color-teal-s) 50% / 0.18);
+  --color-brand-teal-tint-fg: hsl(var(--q-color-teal-h) 60% 72%);
+
+  /* Brand teal — slightly lifted lightness so the CTA, focus borders,
+   * suggestion-hover borders, action-confirm dot, and call-pill border
+   * read more clearly against the dark canvas. */
+  --color-brand-teal: hsl(var(--q-color-teal-h) 65% 55%);
+  --q-color-teal-600: hsl(var(--q-color-teal-h) 65% 50%);   /* darker hover state */
+
+  /* Status colors — slight contrast adjustments for dark surfaces. Warning
+   * unchanged because it pairs with black text regardless of theme. */
+  --color-status-info:    hsl(193 80% 55%);   /* darker so white text on icon bg passes AA */
+  --color-status-danger:  hsl(356 70% 55%);   /* darker coral; ~4.5:1 with white text */
+  --color-status-success: hsl(180 65% 55%);   /* matches the lifted brand teal */
+}

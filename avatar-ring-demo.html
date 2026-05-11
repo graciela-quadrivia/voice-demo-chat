@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Avatar — ring shape · all states · Chat-mode prototype</title>
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+  <aside class="proto-stepper" id="proto-stepper">
+    <div class="proto-stepper-fallback">
+      <a href="index.html">Index</a>
+      <span class="proto-stepper-step">Avatar · ring</span>
+    </div>
+  </aside>
+
+  <header class="q-nav">
+    <div class="q-nav-inner">
+      <a class="q-nav-logo" href="/" aria-label="Quadrivia home">
+        <img class="q-nav-logo-img" alt="" src="quadrivia-logo.png">
+        <span class="q-sr-only">Quadrivia</span>
+      </a>
+      <nav class="q-nav-links" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/why-q">What is Q</a>
+        <a href="/whos-q-for">Who's Q for</a>
+        <a href="/research">Research</a>
+        <a href="/about-q">About</a>
+      </nav>
+      <a class="nav-cta" href="/schedule-demo">
+        Schedule a demo
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+      <details class="q-nav-mobile">
+        <summary class="q-nav-mobile-trigger" aria-label="Toggle menu">
+          <svg class="q-nav-mobile-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="q-nav-mobile-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </summary>
+        <div class="q-nav-mobile-panel">
+          <ul class="q-nav-mobile-list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/why-q">What is Q</a></li>
+            <li><a href="/whos-q-for">Who's Q for</a></li>
+            <li><a href="/research">Research</a></li>
+            <li><a href="/about-q">About</a></li>
+          </ul>
+          <a class="q-nav-mobile-cta" href="/schedule-demo">
+            Schedule a demo
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </details>
+    </div>
+  </header>
+
+  <main class="chat-page">
+    <div class="chat-main">
+      <div class="chat-thread" role="log" aria-live="polite" aria-relevant="additions">
+
+        <div class="proto-demo-intro">
+          <p class="proto-demo-eyebrow">Avatar comparison</p>
+          <h1>Ring shape — all states</h1>
+          <p>Solid brand-coloured ring with a transparent inner hole (5px stroke at 32px diameter). The ring's thick coloured area gives the bright tones enough surface to register against the light-grey chat surface — so each state can use its full-brightness brand token.</p>
+        </div>
+
+        <section class="proto-demo-row">
+          <p class="proto-demo-label">Default · welcome, picker, agent picked, call live, call ended</p>
+          <div class="chat-message--ai">
+            <div class="chat-avatar" aria-hidden="true"></div>
+            <div class="chat-message__body">
+              <p>I can show you what one of our clinical voice agents sounds like — from the patient's side of the call.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="proto-demo-row">
+          <p class="proto-demo-label">Danger · agents fetch failed · call connect failed</p>
+          <div class="chat-message--ai">
+            <div class="chat-avatar chat-avatar--danger" aria-hidden="true"></div>
+            <div class="chat-message__body">
+              <p>I can't reach my agents right now — usually just a brief hiccup that clears in under a minute.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="proto-demo-row">
+          <p class="proto-demo-label">Warning · at capacity · queue states</p>
+          <div class="chat-message--ai">
+            <div class="chat-avatar chat-avatar--warning" aria-hidden="true"></div>
+            <div class="chat-message__body">
+              <p>Lots of people are trying me right now — a slot should free up in about <strong>30 seconds</strong>.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="proto-demo-row">
+          <p class="proto-demo-label">Info · maintenance · paused</p>
+          <div class="chat-message--ai">
+            <div class="chat-avatar chat-avatar--info" aria-hidden="true"></div>
+            <div class="chat-message__body">
+              <p>I'm on a quick maintenance break — back in a few minutes. Your spot will still be here when you return.</p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="q-footer" aria-labelledby="footer-heading">
+    <h2 id="footer-heading" class="q-sr-only">Site footer</h2>
+    <div class="q-footer-inner">
+      <div class="q-footer-grid">
+        <div class="q-footer-about">
+          <h3 class="q-footer-about__title">About Q</h3>
+          <p class="q-footer-about__text">
+            Q is a managed AI service that handles the clinical and operational workflow layer so your organization can stop managing complexity and start delivering results.
+          </p>
+          <a class="q-footer-social" href="https://www.linkedin.com/company/quadrivia-ai/" target="_blank" rel="noopener" aria-label="Quadrivia on LinkedIn">
+            <svg viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+          </a>
+        </div>
+        <nav class="q-footer-nav" aria-label="Footer">
+          <div class="q-footer-col">
+            <h3 class="q-footer-col__title"><a href="/why-q">What is Q</a></h3>
+            <ul class="q-footer-col__list">
+              <li><a href="/why-q">Why Q</a></li>
+              <li><a href="/how-q-works">How Q Works</a></li>
+              <li><a href="/qs-performance">Q's Performance</a></li>
+              <li><a href="/safety-compliance">Safety &amp; Compliance</a></li>
+            </ul>
+          </div>
+          <div class="q-footer-col">
+            <h3 class="q-footer-col__title"><a href="/whos-q-for">Who's Q for</a></h3>
+            <ul class="q-footer-col__list">
+              <li><a href="/health-systems">Health Systems</a></li>
+              <li><a href="/provider-groups-physician-practices">Provider Groups &amp; Physician Practices</a></li>
+              <li><a href="/payors-health-plans">Payors &amp; Health Plans</a></li>
+              <li><a href="/pharma-life-sciences">Pharma &amp; Life Sciences</a></li>
+              <li><a href="/digital-health">Digital Health</a></li>
+              <li><a href="/gp-practices-nhs-adjacent-organizations">GP Practices &amp; NHS-Adjacent Organizations</a></li>
+            </ul>
+          </div>
+          <div class="q-footer-col">
+            <h3 class="q-footer-col__title"><a href="/research-earning-autonomy">Resources</a></h3>
+            <ul class="q-footer-col__list">
+              <li><a href="/research-earning-autonomy">Earning Autonomy</a></li>
+              <li><a href="/research-self-healing-ai">Healthcare Can't Scale. Healthcare AI that Heals Itself Can.</a></li>
+            </ul>
+          </div>
+          <div class="q-footer-col">
+            <h3 class="q-footer-col__title"><a href="/about-q">Company</a></h3>
+            <ul class="q-footer-col__list">
+              <li><a href="/about-q">About us</a></li>
+              <li><a href="/contact-us">Contact us</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="q-footer-legal">
+        <p>Copyright &copy; 2026 Q powered by Quadrivia AI</p>
+        <a href="/legal">Legal</a>
+      </div>
+    </div>
+  </footer>
+  <script src="proto-stepper.js" defer></script>
+</body>
+</html>

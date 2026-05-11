@@ -1,0 +1,51 @@
+/* =============================================================================
+ * CHAT CALLOUT — status callouts (warning / danger / info) inside chat
+ *
+ * Used for inline alerts the AI surfaces during a conversation —
+ * "Capacity reached", "Service unavailable", error explanations, etc. NOT
+ * to be confused with .chat-call-card (which is the live-call UI).
+ *
+ * Future React mapping:
+ *   <Callout variant="warning" | "danger" | "info" icon="…" title="…">
+ *     {description}
+ *   </Callout>
+ * ========================================================================== */
+
+.chat-callout {
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-subtle);
+  padding: clamp(14px, 1.8vw, 18px) clamp(16px, 2vw, 22px);
+  margin-top: 12px;
+  display: flex;
+  gap: clamp(12px, 1.4vw, 16px);
+  align-items: flex-start;
+}
+.chat-callout__icon {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: var(--radius-circle);
+  display: grid;
+  place-items: center;
+  color: var(--color-fg-on-brand);
+  font-size: var(--text-small);
+  font-weight: 700;
+  margin-top: 1px;
+}
+.chat-callout--warning .chat-callout__icon { background: var(--color-brand-yellow); color: var(--color-fg-on-yellow); }
+.chat-callout--danger  .chat-callout__icon { background: var(--color-status-danger); }
+.chat-callout--info    .chat-callout__icon { background: var(--color-status-info);   color: var(--color-fg-on-yellow); }
+
+.chat-callout__body { flex: 1; min-width: 0; }
+.chat-callout__title {
+  font-weight: 600;
+  font-size: var(--text-body);
+  margin: 0 0 2px 0;
+  color: var(--color-fg-default);
+}
+.chat-callout__desc {
+  font-size: var(--text-small);
+  color: var(--color-fg-muted);
+  line-height: 1.5;
+  margin: 0;
+}

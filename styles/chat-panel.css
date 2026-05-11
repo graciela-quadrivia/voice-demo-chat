@@ -1,0 +1,154 @@
+/* =============================================================================
+ * CHAT PANEL — inline panels, action grid, suggestions, AI actions row
+ *
+ * Future React mapping:
+ *   <ChatPanel title="Available agents">
+ *     <ActionGrid>
+ *       <ActionCard icon={...} title="..." desc="..." />
+ *     </ActionGrid>
+ *   </ChatPanel>
+ *
+ *   <Suggestions>
+ *     <Suggestion>Try again</Suggestion>
+ *   </Suggestions>
+ *
+ *   <ChatAIActions>
+ *     <IconButton aria-label="Helpful" />
+ *     <ActionConfirm>Form ready</ActionConfirm>
+ *   </ChatAIActions>
+ * ========================================================================== */
+
+/* ── Inline panel — wraps action grid, forms, and "Agent Details" ───────── */
+.chat-panel {
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border-subtle);
+  padding: clamp(18px, 2.5vw, 28px);
+  margin-top: 10px;
+}
+.chat-panel-title {
+  font-size: var(--text-body-lg);
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: var(--color-fg-default);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+/* ── Action grid — agent picker, scenario tiles ─────────────────────────── */
+.chat-action-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(12px, 1.5vw, 16px);
+}
+/* Container query — switches to 2-col when the THREAD has room, regardless
+ * of viewport. See chat-form.css for the 580px threshold rationale. */
+@container thread (min-width: 580px) {
+  .chat-action-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.chat-action-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-base);
+  border-radius: var(--radius-lg);
+  padding: clamp(16px, 2vw, 22px) clamp(16px, 2vw, 22px) clamp(14px, 1.8vw, 18px);
+  text-align: center;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: border-color var(--duration-base) ease, box-shadow var(--duration-base) ease, transform var(--duration-base) ease;
+}
+.chat-action-card:hover {
+  border-color: var(--color-brand-teal);
+  box-shadow: 0 4px 14px var(--color-shadow-base);
+  transform: translateY(-1px);
+}
+.chat-action-card__icon {
+  color: var(--color-fg-default);
+  margin-top: 2px;
+}
+.chat-action-card__title {
+  font-weight: 600;
+  font-size: var(--text-body-lg);
+  margin: 0;
+  color: var(--color-fg-default);
+}
+.chat-action-card__desc {
+  font-size: var(--text-small);
+  line-height: 1.4;
+  color: var(--color-fg-muted);
+  margin: 0;
+}
+
+/* ── Suggestion chips — retry / alternate-action prompts ────────────────── */
+.chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.chat-suggestion {
+  font-family: inherit;
+  font-size: var(--text-small);
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-bg-surface);
+  color: var(--color-fg-default);
+  cursor: pointer;
+  transition: border-color var(--duration-base) ease, background var(--duration-base) ease;
+}
+.chat-suggestion:hover {
+  border-color: var(--color-brand-teal);
+  background: var(--color-brand-teal-tint);
+}
+
+/* ── AI actions row — feedback affordances under an AI message ──────────── */
+.chat-message__actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 12px;
+  align-items: center;
+}
+.chat-icon-btn {
+  width: 28px; height: 28px;
+  border-radius: var(--radius-sm);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--color-fg-faint);
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+.chat-icon-btn:hover:not(:disabled) {
+  background: var(--color-overlay-subtle);
+  color: var(--color-fg-emphasis);
+}
+.chat-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Action-confirmation pill — "Form ready", state acknowledgments ─────── */
+.chat-action-confirm {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-meta);
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand-teal-tint);
+  color: var(--color-brand-teal-tint-fg);
+}
+.chat-action-confirm__dot {
+  width: 6px; height: 6px;
+  border-radius: var(--radius-circle);
+  background: var(--color-brand-teal);
+}

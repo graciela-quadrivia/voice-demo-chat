@@ -1,0 +1,347 @@
+/* =============================================================================
+ * PROTOTYPE — demo-only chrome
+ *
+ * Everything here is scaffolding for the static prototype experience and
+ * SHOULD NOT migrate to React:
+ *   • .proto-stepper       Floating prev/next/index navigator
+ *   • .proto-index-*       Landing-page link grid (index.html)
+ *   • .proto-demo-*        Avatar comparison page layout
+ *   • .q-sr-only           Accessibility utility (this one CAN migrate)
+ *
+ * Drop this file when porting to a React app — the stepper becomes router
+ * navigation, the index becomes a route map, the demo pages become Storybook.
+ * ========================================================================== */
+
+/* ── Screen-reader-only utility (kept — useful in any context) ──────────── */
+.q-sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Floating state navigator (proto-stepper.js) ─────────────────────────
+ * Auto-mounted by `proto-stepper.js`. Renders a fixed pill bar at top-right
+ * with prev / [section · step · name ▾] / next, plus a dropdown panel that
+ * lists every state grouped by section with type-to-filter and keyboard
+ * shortcuts. Static fallback (the original prev/index/next links) shows
+ * if JS hasn't loaded; the `--ready` class hides it once JS mounts.
+ *
+ * Keyboard:  ← / →  navigate sequence · I  open index · Esc  close panel
+ * ─────────────────────────────────────────────────────────────────────── */
+.proto-stepper {
+  position: fixed;
+  top: 12px; right: 12px;
+  z-index: var(--z-dev);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: var(--text-meta);
+  color: var(--color-fg-on-brand);
+}
+/* Static fallback (no JS) — keeps a minimal nav working when the script
+ * hasn't run. Hidden once proto-stepper.js renders the enhanced bar. */
+.proto-stepper-fallback {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  background: var(--color-overlay-strong);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+}
+.proto-stepper-fallback a { color: var(--color-fg-on-brand); text-decoration: none; }
+.proto-stepper-fallback a:hover { text-decoration: underline; }
+.proto-stepper-fallback .proto-stepper-step { opacity: 0.7; }
+.proto-stepper--ready .proto-stepper-fallback { display: none; }
+
+/* ── Pill bar — main row ────────────────────────────────────────────── */
+.proto-stepper-bar {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-overlay-strong);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  gap: 2px;
+}
+.proto-stepper-nav {
+  display: inline-flex;
+  width: 24px; height: 24px;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--radius-circle);
+  transition: background var(--duration-fast) ease;
+}
+.proto-stepper-nav:hover {
+  background: hsla(0 0% 100% / 0.12);
+}
+.proto-stepper-nav--disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+.proto-stepper-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background var(--duration-fast) ease;
+}
+.proto-stepper-toggle:hover {
+  background: hsla(0 0% 100% / 0.10);
+}
+.proto-stepper-section {
+  opacity: 0.65;
+}
+.proto-stepper-step {
+  background: hsla(0 0% 100% / 0.18);
+  padding: 1px 7px;
+  border-radius: var(--radius-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.proto-stepper-name {
+  font-weight: 500;
+}
+.proto-stepper-caret {
+  font-size: 0.85em;
+  opacity: 0.65;
+}
+
+/* ── Dropdown panel ─────────────────────────────────────────────────── */
+.proto-stepper-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 320px;
+  max-height: 70dvh;
+  background: var(--color-bg-surface);
+  color: var(--color-fg-default);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: 0 16px 40px var(--color-shadow-elevated);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--q-font-family-display);
+  font-size: var(--text-small);
+  overflow: hidden;
+}
+.proto-stepper-panel-search {
+  padding: 10px 10px 6px;
+  background: var(--color-bg-surface);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+.proto-stepper-search {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: var(--text-small);
+  font-family: inherit;
+  background: var(--color-overlay-subtle);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: inherit;
+  outline: none;
+  transition: border-color var(--duration-fast) ease;
+}
+.proto-stepper-search::placeholder { color: var(--color-fg-faint); }
+.proto-stepper-search:focus {
+  border-color: var(--color-brand-teal);
+}
+.proto-stepper-panel-body {
+  flex: 1;
+  padding: 4px;
+  overflow-y: auto;
+  /* Anchor offsetTop calculations to this scrollable container — proto-stepper.js
+   * reads `current.offsetTop` to centre the active state when the panel opens,
+   * which only works if THIS is the offset parent. Without this, offsetTop
+   * traces up to the absolutely-positioned panel and includes the search bar
+   * height, producing an off-by-50px overshoot that hides the item. */
+  position: relative;
+}
+.proto-stepper-group {
+  padding: 4px 4px 8px;
+}
+.proto-stepper-group-title {
+  font-size: var(--text-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-fg-subtle);
+  margin: 8px 8px 4px;
+  font-weight: 600;
+}
+.proto-stepper-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.proto-stepper-state {
+  display: flex;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: inherit;
+  align-items: center;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--duration-fast) ease;
+}
+.proto-stepper-state:hover {
+  background: var(--color-overlay-subtle);
+}
+.proto-stepper-state--index {
+  display: flex;
+  margin: 4px;
+}
+.proto-stepper-state--current {
+  background: var(--color-brand-teal-tint);
+  color: var(--color-brand-teal-tint-fg);
+  font-weight: 600;
+}
+.proto-stepper-state--current:hover {
+  background: var(--color-brand-teal-tint);
+}
+.proto-stepper-state-step {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: var(--text-micro);
+  min-width: 38px;
+  color: var(--color-fg-subtle);
+  letter-spacing: 0.02em;
+}
+.proto-stepper-state--current .proto-stepper-state-step {
+  color: inherit;
+}
+.proto-stepper-state-name {
+  flex: 1;
+}
+.proto-stepper-panel-foot {
+  display: flex;
+  gap: 14px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--color-border-subtle);
+  font-size: var(--text-micro);
+  color: var(--color-fg-subtle);
+  background: var(--color-bg-surface);
+}
+.proto-stepper-panel-foot kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  background: var(--color-overlay-subtle);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xs);
+  margin-right: 2px;
+  color: var(--color-fg-default);
+}
+
+/* ── Mobile — compact bar (hide section label, narrower panel) ──────── */
+@media (max-width: 640px) {
+  .proto-stepper-section { display: none; }
+  .proto-stepper-panel {
+    width: calc(100vw - 24px);
+    max-width: 320px;
+  }
+}
+
+/* ── Index page — link grid grouped by section ──────────────────────────── */
+.proto-index-section {
+  margin-top: 28px;
+}
+.proto-index-section-title {
+  font-size: var(--text-meta);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-fg-subtle);
+  margin: 0 0 12px 0;
+}
+.proto-index-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 640px) { .proto-index-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .proto-index-grid { grid-template-columns: repeat(3, 1fr); } }
+.proto-index-link {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-base);
+  background: var(--color-bg-surface);
+  color: var(--color-fg-default);
+  text-decoration: none;
+  transition: border-color var(--duration-base) ease, transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
+}
+.proto-index-link:hover {
+  border-color: var(--color-brand-teal);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--color-shadow-base);
+}
+.proto-index-step {
+  font-family: ui-monospace, monospace;
+  font-size: var(--text-micro);
+  color: var(--color-fg-subtle);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.proto-index-title {
+  font-weight: 600;
+  font-size: var(--text-body-lg);
+  line-height: 1.3;
+}
+.proto-index-desc {
+  font-size: var(--text-small);
+  color: var(--color-fg-muted);
+  line-height: 1.4;
+}
+
+/* ── Avatar reference demo page (avatar-ring-demo) ──────────────────────── */
+.proto-demo-intro {
+  margin: 0 0 24px;
+}
+.proto-demo-eyebrow {
+  font-size: var(--text-micro);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-fg-subtle);
+  margin: 0 0 8px;
+}
+.proto-demo-intro h1 {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: var(--color-fg-default);
+  line-height: 1.2;
+}
+.proto-demo-intro p {
+  font-size: var(--text-body);
+  color: var(--color-fg-muted);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 60ch;
+}
+.proto-demo-row {
+  padding: 24px 0;
+  border-top: 1px solid var(--color-border-subtle);
+}
+.proto-demo-row:first-of-type { border-top: 0; padding-top: 16px; }
+.proto-demo-label {
+  font-size: var(--text-micro);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-fg-subtle);
+  margin: 0 0 14px;
+}

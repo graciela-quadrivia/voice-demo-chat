@@ -1,0 +1,145 @@
+/* =============================================================================
+ * CHAT FORM — variables form (inline within a chat panel) + buttons
+ *
+ * Future React mapping:
+ *   <ChatForm onSubmit={...}>
+ *     <FormRow>
+ *       <Field label="First name" required />
+ *       <Field label="Last name" required />
+ *     </FormRow>
+ *     <Field label="Date of birth" required />
+ *     <FormActions>
+ *       <Button variant="primary">Start the call</Button>
+ *     </FormActions>
+ *   </ChatForm>
+ *
+ *   <Button variant="primary" | "secondary" | "danger" | "ghost" />
+ * ========================================================================== */
+
+/* ── Form layout ────────────────────────────────────────────────────────── */
+.chat-form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.6vw, 18px);
+}
+.chat-form__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+/* Container query — switches to 2-col when the THREAD has room, regardless
+ * of viewport. Threshold matches the original 640px-viewport behavior:
+ * at that viewport the thread is ~589px wide, so 580px container is the
+ * natural break-point. Embedding chat in a narrower container keeps this
+ * 1-col even on a wide screen. */
+@container thread (min-width: 580px) {
+  .chat-form__row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Field — label + input + error ──────────────────────────────────────── */
+.chat-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.chat-field__label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--color-fg-default);
+}
+.chat-field__required {
+  color: var(--color-status-danger);
+  font-weight: 700;
+  font-size: var(--text-small);
+}
+.chat-field__optional {
+  color: var(--color-fg-subtle);
+  font-weight: 400;
+  font-size: var(--text-meta);
+}
+.chat-field__input {
+  font-family: inherit;
+  font-size: var(--text-body);
+  line-height: 1.4;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-bg-surface);
+  color: var(--color-fg-default);
+  appearance: none;
+  width: 100%;
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+.chat-field__input::placeholder { color: var(--color-fg-placeholder); }
+.chat-field__input:focus-visible {
+  outline: none;
+  border-color: var(--color-brand-teal);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+.chat-field__input[aria-invalid="true"] { border-color: var(--color-status-danger); }
+.chat-field__error {
+  font-size: var(--text-meta);
+  color: var(--color-status-danger);
+  margin: 0;
+}
+
+/* ── Form actions footer — single primary action, right-aligned ─────────── */
+/* Right-align is the standard convention for primary form actions — matches
+ * Stripe checkout, macOS sheets, every modal-with-form pattern. The "Change
+ * agent" affordance lives in the persistent input-bar chip, not duplicated
+ * inline. */
+.chat-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* ── Buttons (chat scale — smaller than .q-btn equivalents) ─────────────── */
+.chat-btn {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: var(--text-body);
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
+  border: 0;
+  cursor: pointer;
+  transition: background var(--duration-base) ease, transform var(--duration-instant) ease, opacity var(--duration-base) ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.chat-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.chat-btn--primary {
+  background: var(--color-fg-default);
+  color: var(--color-bg-surface);
+}
+.chat-btn--primary:hover:not(:disabled) { background: var(--color-fg-strong); }
+.chat-btn--secondary {
+  background: transparent;
+  color: var(--color-fg-default);
+  border: 1px solid var(--color-border-emphasis);
+}
+.chat-btn--secondary:hover:not(:disabled) { background: var(--color-overlay-faint); }
+.chat-btn--danger {
+  background: var(--color-status-danger);
+  color: var(--color-fg-on-brand);
+}
+/* color-mix darkens by 12% across themes — works whether the underlying
+ * status-danger is light coral or dark coral. */
+.chat-btn--danger:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--color-status-danger), black 12%);
+}
+.chat-btn--ghost {
+  background: transparent;
+  color: var(--color-fg-default);
+  padding: 8px 14px;
+  font-size: var(--text-small);
+}
+.chat-btn--ghost:hover { background: var(--color-overlay-subtle); }

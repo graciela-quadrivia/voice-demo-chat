@@ -1,0 +1,339 @@
+/* =============================================================================
+ * LAYOUT — site shell + chat region scaffolding
+ *
+ *   • Site header  (.q-nav)        — Quadrivia.ai brand chrome, top of page
+ *   • Site footer  (.q-footer)     — site footer with grid + legal strip
+ *   • Chat shell   (.chat-page,
+ *                   .chat-main,
+ *                   .chat-thread)  — vertical band the conversation lives in
+ *
+ * Page chrome (.q-nav, .q-footer) uses Jost (the website's brand face).
+ * Chat content stays Inter via the body default in base.css.
+ *
+ * Page chrome breakpoints are CONTENT-FIT (where the layout starts to fit),
+ * not viewport tiers. Don't move them to align with chat-content tiers — the
+ * desktop nav-link group fits at 768px, the 4-col footer fits at 1140px.
+ * ========================================================================== */
+
+/* Force Jost only on the site chrome — chat content keeps Inter. */
+.q-nav, .q-nav *,
+.q-footer, .q-footer * {
+  font-family: "Jost", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ── Site header (q-nav) ────────────────────────────────────────────────── */
+.q-nav {
+  background: var(--color-bg-canvas);
+  border-bottom: 1px solid var(--color-border-divider);
+}
+.q-nav-inner {
+  position: relative;
+  /* Container width matches the live quadrivia.ai .container rule:
+   *   width: 1186px; max-width: 100%; padding: 0 24px;
+   * Effective content width on wide viewports = 1186 - 48 = 1138px,
+   * matching the live site's .row-fluid rail. */
+  width: 1186px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: var(--q-space-4) 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--q-space-4);
+}
+.q-nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--q-space-3);
+  text-decoration: none;
+}
+.q-nav-logo-img {
+  width: 56px;
+  height: auto;
+  display: block;
+}
+.q-nav-links {
+  display: none;
+  gap: var(--q-space-6);
+  align-items: center;
+}
+.q-nav-links a {
+  color: var(--color-fg-default);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: var(--text-body-lg);
+  padding: var(--q-space-2) 0;
+}
+.q-nav-links a:hover {
+  color: var(--color-brand-teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (min-width: 768px) { .q-nav-links { display: inline-flex; } }
+
+.nav-cta {
+  display: none;
+  align-items: center; gap: var(--q-space-2);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: var(--text-body);
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand-teal);
+  color: var(--q-color-black);
+  text-decoration: none;
+  transition: background var(--duration-base) ease;
+  min-height: 44px;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: var(--q-color-teal-600); }
+@media (min-width: 768px) { .nav-cta { display: inline-flex; } }
+
+.q-nav-mobile { display: block; }
+@media (min-width: 768px) { .q-nav-mobile { display: none; } }
+.q-nav-mobile-trigger {
+  list-style: none;
+  cursor: pointer;
+  width: 44px; height: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-pill);
+  color: var(--color-fg-default);
+  transition: background var(--duration-base) ease;
+}
+.q-nav-mobile-trigger::-webkit-details-marker { display: none; }
+.q-nav-mobile-trigger:hover { background: var(--color-brand-teal-tint); }
+.q-nav-mobile-icon-close { display: none; }
+.q-nav-mobile[open] .q-nav-mobile-icon-open { display: none; }
+.q-nav-mobile[open] .q-nav-mobile-icon-close { display: block; }
+.q-nav-mobile-panel {
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  background: var(--color-bg-canvas);
+  border-bottom: 1px solid var(--color-border-divider);
+  box-shadow: var(--q-shadow-sm);
+  padding: var(--q-space-4) clamp(1.5rem, 4vw, 4rem) var(--q-space-6);
+  z-index: var(--z-overlay);
+}
+.q-nav-mobile-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column;
+  border-bottom: 1px solid var(--color-border-divider);
+  margin-bottom: var(--q-space-4);
+}
+.q-nav-mobile-list a {
+  display: block;
+  padding: var(--q-space-3) 0;
+  color: var(--color-fg-default);
+  font-weight: 500;
+  font-size: var(--text-base);
+  text-decoration: none;
+  border-top: 1px solid var(--color-border-divider);
+}
+.q-nav-mobile-list li:first-child a { border-top: 0; }
+.q-nav-mobile-list a:hover { color: var(--color-brand-teal); }
+.q-nav-mobile-cta {
+  display: inline-flex;
+  align-items: center; gap: var(--q-space-2);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: var(--text-body);
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand-teal);
+  color: var(--q-color-black);
+  text-decoration: none;
+  min-height: 44px;
+}
+.q-nav-mobile-cta:hover { background: var(--q-color-teal-600); }
+
+/* ── Site footer (q-footer) ─────────────────────────────────────────────── */
+.q-footer {
+  background: var(--color-bg-canvas);
+  border-top: 2px solid var(--color-brand-pink);
+  margin-top: 0;
+}
+.q-footer-inner {
+  /* Same container rule as the live site's footer (.container, 1186px). */
+  width: 1186px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3.5rem) 24px;
+}
+.q-footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--q-space-8);
+}
+@media (min-width: 768px) {
+  .q-footer-grid { grid-template-columns: 4fr 8fr; gap: var(--q-space-12); }
+}
+.q-footer-about__title {
+  font-size: var(--text-h3);
+  font-weight: 600;
+  margin: 0 0 var(--q-space-3);
+  color: var(--color-fg-default);
+}
+.q-footer-about__text {
+  font-size: var(--text-body);
+  color: var(--color-fg-muted);
+  line-height: 1.5;
+  margin: 0 0 var(--q-space-5);
+  max-width: 32ch;
+}
+.q-footer-social {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 40px; height: 40px;
+  border-radius: var(--radius-circle);
+  color: var(--color-brand-teal);
+  text-decoration: none;
+  transition: background var(--duration-base) ease, color var(--duration-base) ease;
+}
+.q-footer-social:hover {
+  background: var(--color-brand-teal);
+  color: var(--q-color-black);
+}
+.q-footer-social svg { width: 24px; height: 24px; }
+
+.q-footer-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--q-space-6) var(--q-space-4);
+}
+@media (min-width: 1140px) {
+  .q-footer-nav { grid-template-columns: repeat(4, 1fr); }
+}
+.q-footer-col__title {
+  font-size: var(--text-body);
+  font-weight: 600;
+  color: var(--color-fg-default);
+  margin: 0 0 var(--q-space-3);
+}
+.q-footer-col__title a { color: inherit; text-decoration: none; }
+.q-footer-col__title a:hover { color: var(--color-brand-teal); text-decoration: underline; text-underline-offset: 3px; }
+.q-footer-col__list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column;
+  gap: var(--q-space-2);
+}
+.q-footer-col__list a {
+  color: var(--color-fg-muted);
+  text-decoration: none;
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.4;
+}
+.q-footer-col__list a:hover { color: var(--color-brand-teal); text-decoration: underline; text-underline-offset: 3px; }
+
+.q-footer-legal {
+  margin-top: var(--space-y-section);
+  padding-top: var(--q-space-5);
+  border-top: 1px solid var(--color-border-divider);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--q-space-3);
+  font-size: var(--text-body);
+  color: var(--color-fg-muted);
+}
+@media (min-width: 768px) {
+  .q-footer-legal {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.q-footer-legal p { margin: 0; }
+.q-footer-legal a {
+  color: var(--color-fg-muted);
+  text-decoration: none;
+}
+.q-footer-legal a:hover {
+  color: var(--color-brand-teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Chat shell — page band + main column + thread rail ─────────────────── */
+/* Visible boundaries top + bottom: hairline border + a soft inset shadow.
+ * The chat region reads as its own panel inside the website, not as
+ * ambiguous overflow of the page. Background is slightly darker than the
+ * white header/footer canvas so the chat zone is also tonally distinct. */
+.chat-page {
+  flex: 1;
+  width: 100%;
+  background: var(--mkt-grey-50);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--q-font-family-display);
+  border-top: 1px solid var(--color-border-subtle);
+  border-bottom: 1px solid var(--color-border-subtle);
+  box-shadow:
+    inset 0 8px 14px -10px var(--color-shadow-elevated),
+    inset 0 -8px 14px -10px var(--color-border-subtle);
+  /* Vertical air around the chat content. Scales 40 → 80px. */
+  padding-block: var(--space-y-band);
+  /* Mobile-first floor — never shrink below 60% of dynamic viewport height
+   * even when the chat content is sparse. dvh accounts for iOS Safari's
+   * collapsing address bar. flex:1 still lets the page grow taller when
+   * the thread overflows. */
+  min-height: 60dvh;
+}
+@media (min-width: 640px) {
+  .chat-page { min-height: 70dvh; }
+}
+
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Horizontal padding only — vertical breathing handled by .chat-page.
+   * Scales with the page gutter (16 → 32px). */
+  padding: 0 var(--gutter-x);
+}
+
+/* Thread is the QUERY CONTAINER for chat content. Components inside
+ * (panels, action grids, forms) respond to the THREAD's inline-size, not
+ * the viewport — so the same components work whether the chat lives in a
+ * full page, a sidebar, or an embedded panel.
+ *
+ * Component CSS targets this container with `@container thread (min-width: …)`.
+ *
+ * Streaming-friendly:
+ *   • `overflow-anchor: auto` — browser preserves scroll position when
+ *     content above the viewport grows (e.g. a streaming bubble higher up).
+ *   • `scroll-padding-bottom` — when scrolling to the last message via
+ *     scrollIntoView({ block: 'end' }), leaves room for the sticky input. */
+.chat-thread {
+  container-type: inline-size;
+  container-name: thread;
+  width: 100%;
+  max-width: 768px;
+  display: flex;
+  flex-direction: column;
+  /* Visual rhythm between messages — tightens on phones, opens on desktop. */
+  gap: clamp(20px, 2.5vw, 32px);
+  overflow-anchor: auto;
+  scroll-padding-bottom: 80px;
+}
+
+/* Virtualization mode — opt-in via `[data-virtualized]`.
+ *
+ * When the attribute is set, the thread becomes its own scroll container
+ * with layout containment. The CONSUMER (a React virtualizer or a parent
+ * flex container) MUST give the thread an explicit height — otherwise
+ * `overflow-y: auto` has nothing to clip against.
+ *
+ * Default (no attribute): document-flow scroll; chat-thread auto-grows
+ * and the body/page handles scrolling. Sticky input keeps working in
+ * both modes — it sticks to its nearest scroll container.
+ *
+ * React contract:
+ *   <ChatThread virtualized height={containerHeight}>
+ *     <Virtualizer items={messages} />
+ *   </ChatThread> */
+.chat-thread[data-virtualized] {
+  overflow-y: auto;
+  contain: layout style;
+}
