@@ -36,15 +36,36 @@
 }
 
 /* ── Action grid — agent picker, scenario tiles ─────────────────────────── */
+/* Responsive by AGENT COUNT (not just viewport):
+ *   1 agent       → single centered card with a sane max-width
+ *   2-4 agents    → 1 col phone, 2 cols when thread has room
+ *   5+ agents     → 1 col phone, 2 cols tablet, 3 cols on wider threads
+ *                   (4-agent 2×2 layout is preserved; only 5+ triggers 3-col)
+ *
+ * Uses `:has()` for count-driven layout — the API can return any number of
+ * agents and the grid adapts without hardcoded variants. Drops gracefully
+ * to 1-col where `:has()` isn't supported. */
 .chat-action-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(12px, 1.5vw, 16px);
 }
-/* Container query — switches to 2-col when the THREAD has room, regardless
- * of viewport. See chat-form.css for the 580px threshold rationale. */
+/* 1 agent — centred, max-width so the card doesn't span the whole thread. */
+.chat-action-grid:has(> .chat-action-card:only-child) {
+  grid-template-columns: minmax(0, 360px);
+  justify-content: center;
+}
 @container thread (min-width: 580px) {
-  .chat-action-grid { grid-template-columns: repeat(2, 1fr); }
+  /* 2+ agents on a tablet-or-wider thread → 2 columns. */
+  .chat-action-grid:not(:has(> .chat-action-card:only-child)) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@container thread (min-width: 700px) {
+  /* 5+ agents on a near-full thread → 3 columns for tighter packing. */
+  .chat-action-grid:has(> .chat-action-card:nth-child(5)) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .chat-action-card {
