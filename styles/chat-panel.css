@@ -34,20 +34,6 @@
   padding-bottom: 14px;
   border-bottom: 1px solid var(--color-border-subtle);
 }
-/* Small attribution line below the action grid — used to surface org/tenant
- * context once instead of repeating it in every agent name. Reads as a
- * footer: muted, centred, low-emphasis. */
-.chat-panel-footer {
-  text-align: center;
-  font-size: var(--text-meta);
-  color: var(--color-fg-muted);
-  margin: 14px 0 0;
-}
-.chat-panel-footer strong {
-  color: var(--color-fg-default);
-  font-weight: 600;
-}
-
 /* ── Action grid — agent picker, scenario tiles ─────────────────────────── */
 /* Responsive by AGENT COUNT (not just viewport):
  *   1 agent       → single centered card with a sane max-width
