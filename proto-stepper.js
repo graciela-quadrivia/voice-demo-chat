@@ -38,6 +38,9 @@
     { f: '02f-welcome-6-agents.html',        sec: 'Discovery',     step: '02f',  name: 'Welcome — 6 agents (production)' },
     { f: '02g-option-a.html',                sec: 'Discovery',     step: '02g',  name: 'Option A — refined tiles (current backend)' },
     { f: '02h-option-b.html',                sec: 'Discovery',     step: '02h',  name: 'Option B — tiles with description (proposed)' },
+    { f: '02i-welcome-ready-to-call.html',   sec: 'Discovery',     step: '02i',  name: 'Welcome — all ready to call (0 fields)' },
+    { f: '02j-welcome-different-fields.html',sec: 'Discovery',     step: '02j',  name: 'Welcome — different field per agent' },
+    { f: '02k-welcome-multi-input.html',     sec: 'Discovery',     step: '02k',  name: 'Welcome — all need multiple details' },
     { f: '03-empty.html',                    sec: 'Discovery',     step: '03',   name: 'No agents available' },
     { f: '04-error.html',                    sec: 'Discovery',     step: '04',   name: 'Agent fetch error' },
 
