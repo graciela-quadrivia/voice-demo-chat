@@ -49,10 +49,11 @@
   grid-template-columns: 1fr;
   gap: clamp(12px, 1.5vw, 16px);
 }
-/* 1 agent — centred, max-width so the card doesn't span the whole thread. */
+/* 1 agent — left-aligned with the message text, max-width so the card
+ * doesn't span the whole thread. */
 .chat-action-grid:has(> .chat-action-card:only-child) {
   grid-template-columns: minmax(0, 360px);
-  justify-content: center;
+  justify-content: start;
 }
 @container thread (min-width: 580px) {
   /* 2+ agents on a tablet-or-wider thread → 2 columns. */
