@@ -3,27 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Agent picked — variables form · Chat-mode prototype</title>
+  <title>Just name (generic) — variables form · Chat-mode prototype</title>
   <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
   <aside class="proto-stepper" id="proto-stepper">
     <div class="proto-stepper-fallback">
-      <a href="04-error.html">← Prev</a>
-    <a href="index.html">Index</a>
-    <span class="proto-stepper-step">05 / 17</span>
-    <a href="05-filled.html">Next →</a>
+      <a href="index.html">Index</a>
+      <span class="proto-stepper-step">05g · just name</span>
     </div>
   </aside>
 
-    <header class="q-nav">
+  <header class="q-nav">
     <div class="q-nav-inner">
-
       <a class="q-nav-logo" href="/" aria-label="Quadrivia home">
         <img class="q-nav-logo-img" alt="" src="quadrivia-logo.png">
         <span class="q-sr-only">Quadrivia</span>
       </a>
-
       <nav class="q-nav-links" aria-label="Primary">
         <a href="/">Home</a>
         <a href="/why-q">What is Q</a>
@@ -31,12 +27,10 @@
         <a href="/research">Research</a>
         <a href="/about-q">About</a>
       </nav>
-
       <a class="nav-cta" href="/schedule-demo">
         Schedule a demo
         <span aria-hidden="true">&rarr;</span>
       </a>
-
       <details class="q-nav-mobile">
         <summary class="q-nav-mobile-trigger" aria-label="Toggle menu">
           <svg class="q-nav-mobile-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -56,14 +50,13 @@
           </a>
         </div>
       </details>
-
     </div>
   </header>
 
   <main class="chat-page">
-
     <div class="chat-main">
       <div class="chat-thread" role="log" aria-live="polite" aria-relevant="additions">
+
         <div class="chat-message--ai">
           <div class="chat-avatar" aria-hidden="true"></div>
           <div class="chat-message__body">
@@ -72,58 +65,24 @@
           </div>
         </div>
 
-        <div class="chat-message--user">Appointment Reminder, please.</div>
+        <div class="chat-message--user">Mammogram Outreach, please.</div>
 
         <div class="chat-message--ai">
           <div class="chat-avatar" aria-hidden="true"></div>
           <div class="chat-message__body">
-            <p>Great pick. You'll be on the patient's side of an <strong>Appointment Reminder</strong> call from Acme Hospital.</p>
-            <p>A few quick details so the agent can find your record.</p>
+            <p>Great pick. You'll be on the patient's side of a <strong>Mammogram Outreach</strong> call from Acme Hospital.</p>
+            <p>What should the agent call you?</p>
 
             <div class="chat-panel">
-              <p class="chat-panel-title">Patient details</p>
+              <p class="chat-panel-title">Just your first name</p>
 
               <form class="chat-form" novalidate>
-                <div class="chat-form__row">
-                  <div class="chat-field">
-                    <label class="chat-field__label" for="f-first-name">
-                      <span>First name</span>
-                      <span class="chat-field__required" aria-label="required">*</span>
-                    </label>
-                    <input id="f-first-name" type="text" class="chat-field__input" autocomplete="given-name" inputmode="text" placeholder="e.g. Anna">
-                  </div>
-                  <div class="chat-field">
-                    <label class="chat-field__label" for="f-last-name">
-                      <span>Last name</span>
-                      <span class="chat-field__required" aria-label="required">*</span>
-                    </label>
-                    <input id="f-last-name" type="text" class="chat-field__input" autocomplete="family-name" inputmode="text" placeholder="e.g. Patel">
-                  </div>
-                </div>
-
-                <div class="chat-form__row">
-                  <div class="chat-field">
-                    <label class="chat-field__label" for="f-dob">
-                      <span>Date of birth</span>
-                      <span class="chat-field__required" aria-label="required">*</span>
-                    </label>
-                    <input id="f-dob" type="text" class="chat-field__input" autocomplete="bday" inputmode="numeric" placeholder="DD / MM / YYYY">
-                  </div>
-                  <div class="chat-field">
-                    <label class="chat-field__label" for="f-appt-date">
-                      <span>Appointment date</span>
-                      <span class="chat-field__required" aria-label="required">*</span>
-                    </label>
-                    <input id="f-appt-date" type="text" class="chat-field__input" autocomplete="off" inputmode="numeric" placeholder="DD / MM / YYYY">
-                  </div>
-                </div>
-
                 <div class="chat-field">
-                  <label class="chat-field__label" for="f-clinic">
-                    <span>Clinic name</span>
+                  <label class="chat-field__label" for="f-first-name">
+                    <span>First name</span>
                     <span class="chat-field__required" aria-label="required">*</span>
                   </label>
-                  <input id="f-clinic" type="text" class="chat-field__input" autocomplete="off" inputmode="text" placeholder="e.g. Acme Hospital — Cardiology">
+                  <input id="f-first-name" type="text" class="chat-field__input" autocomplete="given-name" inputmode="text" placeholder="e.g. Anna">
                 </div>
 
                 <div class="chat-form__actions">
@@ -134,9 +93,9 @@
                 </div>
               </form>
             </div>
-
           </div>
         </div>
+
       </div>
     </div>
 
@@ -157,12 +116,10 @@
     </div>
   </main>
 
-
   <footer class="q-footer" aria-labelledby="footer-heading">
     <h2 id="footer-heading" class="q-sr-only">Site footer</h2>
     <div class="q-footer-inner">
       <div class="q-footer-grid">
-
         <div class="q-footer-about">
           <h3 class="q-footer-about__title">About Q</h3>
           <p class="q-footer-about__text">
@@ -172,9 +129,7 @@
             <svg viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
           </a>
         </div>
-
         <nav class="q-footer-nav" aria-label="Footer">
-
           <div class="q-footer-col">
             <h3 class="q-footer-col__title"><a href="/why-q">What is Q</a></h3>
             <ul class="q-footer-col__list">
@@ -184,7 +139,6 @@
               <li><a href="/safety-compliance">Safety &amp; Compliance</a></li>
             </ul>
           </div>
-
           <div class="q-footer-col">
             <h3 class="q-footer-col__title"><a href="/whos-q-for">Who's Q for</a></h3>
             <ul class="q-footer-col__list">
@@ -196,7 +150,6 @@
               <li><a href="/gp-practices-nhs-adjacent-organizations">GP Practices &amp; NHS-Adjacent Organizations</a></li>
             </ul>
           </div>
-
           <div class="q-footer-col">
             <h3 class="q-footer-col__title"><a href="/research-earning-autonomy">Resources</a></h3>
             <ul class="q-footer-col__list">
@@ -204,7 +157,6 @@
               <li><a href="/research-self-healing-ai">Healthcare Can't Scale. Healthcare AI that Heals Itself Can.</a></li>
             </ul>
           </div>
-
           <div class="q-footer-col">
             <h3 class="q-footer-col__title"><a href="/about-q">Company</a></h3>
             <ul class="q-footer-col__list">
@@ -212,10 +164,8 @@
               <li><a href="/contact-us">Contact us</a></li>
             </ul>
           </div>
-
         </nav>
       </div>
-
       <div class="q-footer-legal">
         <p>Copyright &copy; 2026 Q powered by Quadrivia AI</p>
         <a href="/legal">Legal</a>

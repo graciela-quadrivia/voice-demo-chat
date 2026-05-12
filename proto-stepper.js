@@ -55,6 +55,7 @@
     { f: '05d-wellness.html',                sec: 'Variables',     step: '05d',  name: 'Wellness — empty' },
     { f: '05d-filled.html',                  sec: 'Variables',     step: '05df', name: 'Wellness — filled' },
     { f: '05e-with-optional.html',           sec: 'Variables',     step: '05e',  name: 'With optional fields' },
+    { f: '05g-just-name.html',               sec: 'Variables',     step: '05g',  name: 'Just name (generic)' },
     { f: '06-variables-errors.html',         sec: 'Variables',     step: '06',   name: 'Submit blocked' },
     { f: '06b-variables-submitting.html',    sec: 'Variables',     step: '06b',  name: 'Submitting' },
 
