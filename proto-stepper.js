@@ -35,7 +35,7 @@
     { f: '02c-welcome-1-agent.html',         sec: 'Discovery',     step: '02c',  name: 'Welcome — 1 agent' },
     { f: '02d-welcome-2-agents.html',        sec: 'Discovery',     step: '02d',  name: 'Welcome — 2 agents' },
     { f: '02e-welcome-3-agents.html',        sec: 'Discovery',     step: '02e',  name: 'Welcome — 3 agents' },
-    { f: '02f-welcome-6-agents.html',        sec: 'Discovery',     step: '02f',  name: 'Welcome — 6 agents (production)' },
+    { f: '02f-welcome-6-agents.html',        sec: 'Discovery',     step: '02f',  name: 'Welcome — 6 agents (long names)' },
     { f: '02g-option-a.html',                sec: 'Discovery',     step: '02g',  name: 'Option A — refined tiles (current backend)' },
     { f: '02h-option-b.html',                sec: 'Discovery',     step: '02h',  name: 'Option B — tiles with description (proposed)' },
     { f: '02i-welcome-ready-to-call.html',   sec: 'Discovery',     step: '02i',  name: 'Welcome — all ready to call (0 fields)' },
