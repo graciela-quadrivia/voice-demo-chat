@@ -73,26 +73,22 @@
             <p>Great pick. You'll be on the patient's side of a <strong>Mammogram Outreach</strong> call from Acme Hospital.</p>
             <p>What should the agent call you?</p>
 
-            <div class="chat-panel">
-              <p class="chat-panel-title">Just your first name</p>
+            <form class="chat-form" novalidate>
+              <div class="chat-field">
+                <label class="chat-field__label" for="f-first-name">
+                  <span>First name</span>
+                  <span class="chat-field__required" aria-label="required">*</span>
+                </label>
+                <input id="f-first-name" type="text" class="chat-field__input" autocomplete="given-name" inputmode="text" placeholder="e.g. Anna">
+              </div>
 
-              <form class="chat-form" novalidate>
-                <div class="chat-field">
-                  <label class="chat-field__label" for="f-first-name">
-                    <span>First name</span>
-                    <span class="chat-field__required" aria-label="required">*</span>
-                  </label>
-                  <input id="f-first-name" type="text" class="chat-field__input" autocomplete="given-name" inputmode="text" placeholder="e.g. Anna">
-                </div>
-
-                <div class="chat-form__actions">
-                  <button type="submit" class="chat-btn chat-btn--primary" disabled>
-                    Start the call
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                  </button>
-                </div>
-              </form>
-            </div>
+              <div class="chat-form__actions">
+                <button type="submit" class="chat-btn chat-btn--primary" disabled>
+                  Start the call
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
 
